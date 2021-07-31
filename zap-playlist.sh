@@ -10,7 +10,7 @@ curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAY
 
 cat $TODAY.json
 
-tracks=`cat $TODAY.json | jq  -r '[.playlist.trackIds[].id ] | join(",")'`
+tracks=`cat $TODAY.json | jq  -r '[.playlist.trackIds[].id | tostring] | join(",")'`
 
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 
