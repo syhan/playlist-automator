@@ -6,3 +6,6 @@ script:
 branches:
   only:
     - dada
+env:
+  global:
+    - GH_REF=github.com/syhan/playlist-automator.git
