@@ -2,3 +2,7 @@ language: bash
 
 script:
   - bash -x zap-playlist.sh
+
+branches:
+  only:
+    - dada
