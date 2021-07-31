@@ -5,6 +5,10 @@ curl -c cookie.txt "${NETEASE_MUSIC_API}/login?email=${NETEASE_MUSIC_USERNAME}&p
 
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o $TODAY.json
 
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=`jq  -r '[.playlist.trackIds[].id ] | join(",")' $TODAY.json`"
+cat $TODAY.json
+
+tracks=`cat $TODAY.json | jq  -r '[.playlist.trackIds[].id ] | join(",")'`
+
+curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 
 rm cookie.txt
