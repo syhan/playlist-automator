@@ -1,3 +1,3 @@
 # A playlist automator
 
-![Travis CI](https://travis-ci.org/syhan/playlist-automator.svg?branch=main)
+![Travis CI](https://travis-ci.com/syhan/playlist-automator.svg?branch=dada)
