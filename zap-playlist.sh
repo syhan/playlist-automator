@@ -10,8 +10,4 @@ tracks=`cat $TODAY.json | jq  -r '[.playlist.trackIds[].id ] | join(",")'`
 
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 
-git add $TODAY.json
-git commit -m "playlist $TODAY"
-git push --quiet "https://${GH_TOKEN}@${GH_REF}" dada:dada
-
 rm cookie.txt

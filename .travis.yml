@@ -3,6 +3,14 @@ language: bash
 script:
   - bash -x zap-playlist.sh
 
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GH_TOKEN
+  keep_history: true
+  on:
+    branch: dada
+
 branches:
   only:
     - dada
