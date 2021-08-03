@@ -40,10 +40,10 @@ jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' meta/$TO
 echo | tee _posts/$(date +%Y-%m-%d).md << EOF
 ---
 layout: post
-title: "$(jq -r 'playlist.description' meta/$TODAY.json)"
+title: "$(jq -r '.playlist.description' meta/$TODAY.json)"
 date: $(date "+%Y-%m-%d %H:%M:%S")
 ---
-![](/url "$(jq -r '.playlist.coverImgUrl' meta/$TODAY)")
+![](/url "$(jq -r '.playlist.coverImgUrl' meta/$TODAY.json)")
 $(jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' meta/$TODAY.json)
 EOF
 
