@@ -38,7 +38,7 @@ jq -r '.playlist | (.name + "\n" + .description)' meta/$TODAY.json > today.txt
 jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' meta/$TODAY.json >> today.txt
 
 title=$(jq -r '.playlist.description' meta/$TODAY.json | sed -r 's/.+：(.+)/\1/')
-echo | tee _posts/$(date +%Y-%m-%d)-fm896-6th-radio.md << EOF
+echo -n | tee _posts/$(date +%Y-%m-%d)-fm896-radio.md << EOF
 ---
 layout: post
 title: "$title"
