@@ -1,16 +1,19 @@
 #!/bin/bash
 set -e # in case of any error, stop executing the subsequence command
 
+# get netease cloud music API server running locally
+git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
+cd NeteaseCloudMusicApi
+npm install
+nohup node app.js &
+cd ..
+
 TODAY=`date +%Y%m%d`
 
-mkdir playlists
-
 # fetch previous playlist
-git clone --single-branch --branch gh-pages https://github.com/syhan/playlist-automator.git tmp
-mv tmp/*.* playlists/
-rm -rf tmp/
-
+git clone --single-branch --branch gh-pages https://github.com/syhan/playlist-automator.git playlists
 cd playlists
+rm -rf .git # not necessary
 
 # login
 curl -c cookie.txt "${NETEASE_MUSIC_API}/login?email=${NETEASE_MUSIC_USERNAME}&password=${NETEASE_MUSIC_PASSWORD}" > /dev/null 2>&1
@@ -22,7 +25,7 @@ curl -b cookie.tst "${NETEASE_MUSIC_API}/login/status"
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o $TODAY.json
 
 # for troubleshooting, could eliminate sometime later
-cat $TODAY.json
+# cat $TODAY.json
 
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' $TODAY.json`

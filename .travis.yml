@@ -15,3 +15,15 @@ deploy:
 branches:
   only:
     - dada
+
+env:
+  global:
+    - NETEASE_MUSIC_API=localhost:3000
+
+notifications:
+  email:
+    recipients:
+      - syhannn@gmail.com
+      - superlingkun@qq.com
+    on_success: always
+    on_failure: always
