@@ -1,5 +1,8 @@
 language: bash
 
+before_install:
+  - nvm install node
+
 script:
   - bash -x automator.sh
 
