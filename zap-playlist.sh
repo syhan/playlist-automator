@@ -1,10 +1,12 @@
 #!/bin/bash
 set -e
 
-# fetch previous playlist
-git checkout gh-pages -- "*.json"
 mkdir playlists
-mv *.json playlists/
+# fetch previous playlist
+git clone --single-branch --branch gh-pages https://github.com/syhan/playlist-automator.git tmp
+mv tmp/*.json playlists/
+
+rm -rf tmp/
 
 TODAY=`date +%Y%m%d`
 
