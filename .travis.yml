@@ -5,6 +5,7 @@ script:
 
 deploy:
   provider: pages
+  local_dir: playlists
   skip_cleanup: true
   github_token: $GH_TOKEN
   keep_history: true
@@ -14,6 +15,3 @@ deploy:
 branches:
   only:
     - dada
-env:
-  global:
-    - GH_REF=github.com/syhan/playlist-automator.git
