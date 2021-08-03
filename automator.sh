@@ -22,20 +22,29 @@ curl -c cookie.txt "${NETEASE_MUSIC_API}/login?email=${NETEASE_MUSIC_USERNAME}&p
 curl -b cookie.tst "${NETEASE_MUSIC_API}/login/status"
 
 # get current playlist
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o $TODAY.json
+curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o meta/$TODAY.json
 
 # for troubleshooting, could eliminate sometime later
-# cat $TODAY.json
+# cat meta/$TODAY.json
 
 # delete all tracks extracted from the playlist
-tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' $TODAY.json`
+tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' meta/$TODAY.json`
 # [ ! -z "$DRY_RUN" ] && echo "skip delete tracks from playlist" || curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 rm cookie.txt # then we don't need the cookie anymore, delete for safety purpose
 
 # extract today playlist title and description
-jq -r '.playlist | (.name + "\n" + .description)' $TODAY.json > today.txt
-
+jq -r '.playlist | (.name + "\n" + .description)' meta/$TODAY.json > today.txt
 # tracks with name and artist 
-jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' $TODAY.json >> today.txt
+jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' meta/$TODAY.json >> today.txt
+
+echo | tee _posts/$(date +%Y-%m-%d).md << EOF
+---
+layout: post
+title: "$(jq -r 'playlist.description' meta/$TODAY.json)"
+date: $(date "+%Y-%m-%d %H:%M:%S")
+---
+![](/url "$(jq -r '.playlist.coverImgUrl' meta/$TODAY)")
+$(jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' meta/$TODAY.json)
+EOF
 
 cd ..
