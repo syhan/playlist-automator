@@ -7,7 +7,7 @@ mkdir playlists
 
 # fetch previous playlist
 git clone --single-branch --branch gh-pages https://github.com/syhan/playlist-automator.git tmp
-mv tmp/*.json playlists/
+mv tmp/*.* playlists/
 rm -rf tmp/
 
 cd playlists
@@ -33,6 +33,6 @@ rm cookie.txt # then we don't need the cookie anymore, delete for safety purpose
 jq -r '.playlist | (.name + "\n" + .description)' $TODAY.json > today.txt
 
 # tracks with name and artist 
-jq -r '.playlist.tracks[] | (.name + " " + ([.ar[].name] | join("/")))' $TODAY.json >> today.txt
+jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' $TODAY.json >> today.txt
 
 cd ..
