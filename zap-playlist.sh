@@ -22,7 +22,7 @@ curl -b cookie.tst "${NETEASE_MUSIC_API}/login/status"
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o $TODAY.json
 
 # for troubleshooting, could eliminate sometime later
-cat playlists/$TODAY.json
+cat $TODAY.json
 
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' $TODAY.json`
