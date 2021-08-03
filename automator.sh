@@ -8,6 +8,7 @@ npm install
 nohup node app.js &
 cd ..
 
+TZ='Asia/Shanghai'
 TODAY=`date +%Y%m%d`
 
 # fetch previous playlist
@@ -29,7 +30,7 @@ curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAY
 
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' meta/$TODAY.json`
-# [ ! -z "$DRY_RUN" ] && echo "skip delete tracks from playlist" || curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
+curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 rm cookie.txt # then we don't need the cookie anymore, delete for safety purpose
 
 # extract today playlist title and description
@@ -42,7 +43,7 @@ echo -n | tee _posts/$(date +%Y-%m-%d)-fm896-radio.md << EOF
 ---
 layout: post
 title: "$title"
-date: $(date "+%Y-%m-%d %H:%M:%S")
+date: $(date "+%Y-%m-%d %H:%M:%S") +0800
 categories: radio
 ---
 ![]($(jq -r '.playlist.coverImgUrl' meta/$TODAY.json))
