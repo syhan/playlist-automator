@@ -37,14 +37,18 @@ jq -r '.playlist | (.name + "\n" + .description)' meta/$TODAY.json > today.txt
 # tracks with name and artist 
 jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' meta/$TODAY.json >> today.txt
 
-echo | tee _posts/$(date +%Y-%m-%d).md << EOF
+title=$(jq -r '.playlist.description' meta/$TODAY.json | sed -r 's/.+：(.+)/\1/')
+echo | tee _posts/$(date +%Y-%m-%d)-fm896-6th-radio.md << EOF
 ---
 layout: post
-title: "$(jq -r '.playlist.description' meta/$TODAY.json)"
+title: "$title"
 date: $(date "+%Y-%m-%d %H:%M:%S")
+categories: radio
 ---
-![](/url "$(jq -r '.playlist.coverImgUrl' meta/$TODAY.json)")
-$(jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' meta/$TODAY.json)
+![]($(jq -r '.playlist.coverImgUrl' meta/$TODAY.json))
+
+$(jq -r '.playlist.tracks[] | ("|" + .name + "|" + ([.ar[].name] | join("/")) + "|")' meta/$TODAY.json)
+
 EOF
 
 cd ..
