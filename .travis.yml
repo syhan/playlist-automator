@@ -28,6 +28,6 @@ notifications:
   email:
     recipients:
       - syhannn@gmail.com
-      #- superlingkun@qq.com
+      - superlingkun@qq.com
     on_success: always
     on_failure: always
