@@ -43,7 +43,7 @@ mkdir covers
 jq -r '.playlist.tracks[].al.picUrl' _data/$TODAY.json > covers/cover_urls.txt
 cd covers
 wget -i cover_urls.txt
-magick montage '*.jpg' ../images/cover_$TODAY.jpg
+montage '*.jpg' ../images/cover_$TODAY.jpg
 cd ..
 rm -rf covers
 
