@@ -35,6 +35,8 @@ plugins:
   - jekyll-feed
 
 #github: [metadata]
+logo: /images/logo.jpg
+netease_music_playlist: https://music.163.com/playlist?id=6876152675
 
 show_excerpts: true
 
