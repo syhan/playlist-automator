@@ -30,13 +30,22 @@ curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAY
 
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' _data/$TODAY.json`
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
+#curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 rm cookie.txt # then we don't need the cookie anymore, delete for safety purpose
 
 # extract today playlist title and description
 jq -r '.playlist | (.name + "\n" + .description)' _data/$TODAY.json > today.txt
 # tracks with name and artist 
 jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' _data/$TODAY.json >> today.txt
+
+mkdir covers
+# extract cover image urls
+jq -r '.playlist.tracks[].al.picUrl' _data/$TODAY.json > covers/cover_urls.txt
+cd covers
+wget -i cover_urls.txt
+magick montage '*.jpg' ../images/cover_$TODAY.jpg
+cd ..
+rm -rf covers
 
 # extract title
 title=$(jq -r '.playlist.description' _data/$TODAY.json | sed -r 's/.+：(.+)/\1/') # CAUSION! the colon was a Chinese colon:(
@@ -48,7 +57,7 @@ title: "$title"
 date: $(date "+%Y-%m-%d %H:%M:%S") +0800
 categories: radio
 ---
-![]($(jq -r '.playlist.coverImgUrl' _data/$TODAY.json))
+![](images/cover_$TODAY.jpg)
 
 $(jq -r '.playlist.tracks[] | ("|" + .name + "|" + ([.ar[].name] | join("/")) + "|")' _data/$TODAY.json)
 
