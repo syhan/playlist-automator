@@ -25,12 +25,9 @@ curl -b cookie.tst "${NETEASE_MUSIC_API}/login/status"
 # get current playlist
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o _data/$TODAY.json
 
-# for troubleshooting, could eliminate sometime later
-# cat _data/$TODAY.json
-
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' _data/$TODAY.json`
-#curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
+curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 rm cookie.txt # then we don't need the cookie anymore, delete for safety purpose
 
 # extract today playlist title and description
@@ -42,7 +39,7 @@ mkdir covers
 # extract cover image urls
 jq -r '.playlist.tracks[].al.picUrl' _data/$TODAY.json > covers/cover_urls.txt
 cd covers
-wget -i cover_urls.txt
+wget --quiet -i cover_urls.txt
 montage '*.jpg' ../images/cover_$TODAY.jpg
 cd ..
 rm -rf covers
@@ -57,7 +54,7 @@ title: "$title"
 date: $(date "+%Y-%m-%d %H:%M:%S") +0800
 categories: radio
 ---
-![](images/cover_$TODAY.jpg)
+![]({{site.baseurl}}/images/cover_$TODAY.jpg)
 
 $(jq -r '.playlist.tracks[] | ("|" + .name + "|" + ([.ar[].name] | join("/")) + "|")' _data/$TODAY.json)
 
