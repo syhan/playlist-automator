@@ -25,6 +25,8 @@ baseurl: "/playlist-automator" # the subpath of your site, e.g. /blog
 url: "https://syhan.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  syhan
 
+author: 藏藏
+
 # Build settings
 #theme: minima
 remote_theme: pages-themes/minimal@v0.2.0
