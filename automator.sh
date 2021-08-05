@@ -39,7 +39,7 @@ mkdir covers
 # extract cover image urls
 jq -r '.playlist.tracks[].al.picUrl' _data/$TODAY.json > covers/cover_urls.txt
 cd covers
-wget --quiet -i cover_urls.txt
+wget --quiet -nc -i cover_urls.txt
 montage '*.jpg' ../images/cover_$TODAY.jpg
 cd ..
 rm -rf covers
