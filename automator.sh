@@ -35,6 +35,11 @@ jq -r '.playlist | (.name + "\n" + .description)' _data/$TODAY.json > today.txt
 # tracks with name and artist 
 jq -r '.playlist.tracks[] | (.name + "/" + ([.ar[].name] | join("&")))' _data/$TODAY.json >> today.txt
 
+# extract author of the playlist
+jq -r '.playlist.trackIds[].uid' _data/$TODAY.json | sort | uniq | xargs -I '{}' curl -s "${NETEASE_MUSIC_API}/user/detail?uid={}" | jq -r '.profile.nickname' > authors.txt
+authors=`paste -sd '/' authors.txt`
+rm authors.txt
+
 mkdir covers
 # extract cover image urls
 jq -r '.playlist.tracks[].al.picUrl' _data/$TODAY.json > covers/cover_urls.txt
@@ -53,6 +58,7 @@ layout: post
 title: "$title"
 date: $(date "+%Y-%m-%d %H:%M:%S") +0800
 categories: radio
+author: $authors
 ---
 ![]({{site.baseurl}}/images/cover_$TODAY.jpg)
 
