@@ -19,15 +19,18 @@ rm -rf .git # not necessary
 # login
 curl -c cookie.txt "${NETEASE_MUSIC_API}/login?email=${NETEASE_MUSIC_USERNAME}&password=${NETEASE_MUSIC_PASSWORD}" > /dev/null 2>&1
 
+# reflect cookie content
+cat cookie.txt
+
 # reflect login status
-curl -b cookie.tst "${NETEASE_MUSIC_API}/login/status"
+curl -b cookie.txt "${NETEASE_MUSIC_API}/login/status"
 
 # get current playlist
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o _data/$TODAY.json
 
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' _data/$TODAY.json`
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
+#curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 rm cookie.txt # then we don't need the cookie anymore, delete for safety purpose
 
 # extract today playlist title and description
