@@ -20,9 +20,9 @@ branches:
   only:
     - dada
 
-#env:
-#  global:
-#    - NETEASE_MUSIC_API=localhost:3000
+env:
+  global:
+    - NETEASE_MUSIC_API=localhost:3000
 
 notifications:
   email:
