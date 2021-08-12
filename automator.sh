@@ -66,7 +66,7 @@ author: $authors
 ---
 ![]({{site.baseurl}}/images/cover_$TODAY.jpg)
 
-$(jq -r '.playlist.tracks[] | ("|" + .name + "|" + ([.ar[].name] | join("/")) + "|")' _data/$TODAY.json)
+$(jq -r '.playlist.tracks[] | ("|" + .name + "|" + ([.ar[].name] | join("/")) + "|https://music.163.com/song/media/outer/url?id=" + (.id|tostring) + ".mp3|")' _data/$TODAY.json)
 
 EOF
 
