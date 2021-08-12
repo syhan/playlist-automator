@@ -1,0 +1,14 @@
+---
+---
+
+@import "{{ site.theme }}";
+audio::-webkit-media-controls-timeline,
+audio::-webkit-media-controls-mute-button,
+audio::-webkit-media-controls-volume-slider {
+    display: none;
+}
+
+audio {
+    width: 100px;
+    height: 30px;
+}

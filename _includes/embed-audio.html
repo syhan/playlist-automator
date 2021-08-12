@@ -1,0 +1,11 @@
+<script>
+function mp3_embed() {
+    var p = document.getElementsByTagName('td');
+    for(var i = 0; i < p.length; i++) {
+        if(p[i].innerHTML.indexOf('.mp3') !== -1) {
+            p[i].innerHTML = '<audio controls src="'+p[i].innerHTML+'" type="audio/mpeg" controlsList="nodownload"/>';
+        }
+    }
+}
+mp3_embed();
+</script>
