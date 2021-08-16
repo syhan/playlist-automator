@@ -21,13 +21,16 @@ rm -rf .git # not necessary
 curl -c cookie.txt "${NETEASE_MUSIC_API}/login?email=${NETEASE_MUSIC_USERNAME}&password=${NETEASE_MUSIC_PASSWORD}" > /dev/null 2>&1
 
 # reflect cookie content
-cat cookie.txt
+# cat cookie.txt
 
 # reflect login status
 curl -b cookie.txt "${NETEASE_MUSIC_API}/login/status"
 
 # get current playlist
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o _data/$TODAY.json
+
+# reflect playlist content, all contents can be recovered if the raw metadata captured
+cat _data/$TODAY.json
 
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' _data/$TODAY.json`
