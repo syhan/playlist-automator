@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-someday=20210817
+someday=20210813
 
 [ ! -f /tmp/${someday}.json ] && curl -L https://raw.githubusercontent.com/syhan/playlist-automator/gh-pages/_data/${someday}.json -o /tmp/${someday}.json
 
@@ -13,10 +13,10 @@ curl -b cookie.txt "${NETEASE_MUSIC_API}/login/status"
 
 # extract tracks and title
 tracks=$(jq -r '[.playlist.trackIds[].id | tostring] | join(",")' /tmp/${someday}.json)
-title=$(jq -r '.playlist.description' /tmp/${someday}.json | sed -r 's/[\/ ]//g' | xxd -ps | tr -d '\n' | sed -r 's/(..)/%\1/g')
+title=$(jq -r '.playlist.description' /tmp/${someday}.json)
 
 # create playlist
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/create?name=$title&privacy=10&type=NORMAL" > /tmp/playlist_${someday}.json
+curl -b cookie.txt --data-urlencode "name=$title" --data-urlencode "privacy=10" --data-urlencode "type=NORMAL" "${NETEASE_MUSIC_API}/playlist/create" > /tmp/playlist_${someday}.json
 
 # extract the playlist id
 playlist_id=$(jq -r '.id' /tmp/playlist_${someday}.json)
