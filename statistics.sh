@@ -8,4 +8,6 @@ cat contributor_ids | tr -s " " | cut -d " " -f3 | xargs -I {} curl -s "${NETEAS
 # join user id to get a statistics
 join -1 2 contributor_ids contributor_names > contributors
 
+rm -f contributor_*
+
 
