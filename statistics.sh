@@ -8,15 +8,14 @@ cat contributor_ids | tr -s " " | cut -d " " -f3 | xargs -I {} curl -s "${NETEAS
 # join user id to get a statistics
 join -1 2 contributor_ids contributor_names | sort > contributors
 
-rm -f contributor_*
-
 # artist aggregate
 find ./_data -name "*.json" | xargs jq -r '.playlist.tracks[].ar[] | .name' | sort | uniq -c | sort -r > artists
 
 # album aggregate
 find ./_data -name "*.json" | xargs jq -r '.playlist.tracks[].al.name' | sort | uniq -c | sort -r > albums
 
-
+# contributor to album
 find ./_data -name "*.json" | xargs jq -r '.playlist.trackIds[] | (.id|tostring) + " " + (.uid|tostring)' | sort > track_contributor
-find ./_data -name "*.json" | xargs jq -r '.playlist.tracks[] | (.id|tostring) + " " + .al.name + " " + .ar[]' | sort > track_album
-join track_contributor track_album
+find ./_data -name "*.json" | xargs jq -r '.playlist.tracks[] | (.id|tostring) + " " + .al.name' | sort > track_album
+join -o 1.2,2.2 track_contributor track_album | sort > contributor_album
+join -o 2.2,1.2 track_contributor track_album | sort | uniq -c | sort -r > album_contributor
