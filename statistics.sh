@@ -14,8 +14,14 @@ find ./_data -name "*.json" | xargs jq -r '.playlist.tracks[].ar[] | .name' | so
 # album aggregate
 find ./_data -name "*.json" | xargs jq -r '.playlist.tracks[].al.name' | sort | uniq -c | sort -r > albums
 
+# tracks aggregate
+find ./_data -name "*.json" | xargs jq -r '.playlist.tracks[] | (.id|tostring) + " " + .name' | sort | uniq -c | sort -r > tracks
+
 # contributor to album
 find ./_data -name "*.json" | xargs jq -r '.playlist.trackIds[] | (.id|tostring) + " " + (.uid|tostring)' | sort > track_contributor
 find ./_data -name "*.json" | xargs jq -r '.playlist.tracks[] | (.id|tostring) + " " + .al.name' | sort > track_album
 join -o 1.2,2.2 track_contributor track_album | sort > contributor_album
 join -o 2.2,1.2 track_contributor track_album | sort | uniq -c | sort -r > album_contributor
+
+#curl -s "${NETEASE_MUSIC_API}/playlist/subscribers?id=${NETEASE_MUSIC_PLAYLIST_ID}&limit=100" > subscribers.json
+
