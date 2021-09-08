@@ -24,7 +24,11 @@ cd ..
 rm -rf covers
 
 # extract title
-title=$(jq -r '.playlist.description' _data/$TODAY.json | sed -r 's/.+：(.+)/\1/') # CAUSION! the colon was a Chinese colon:(
+title=$(jq -r '.playlist.description' _data/$TODAY.json | sed -r 's/.+：(.+)/\1/' | sed -r 's/(.+)#.+/\1/') # CAUSION! the colon was a Chinese colon:(
+
+# extract original author
+original_author=$(jq -r '.playlist.description' _data/$TODAY.json | sed -r 's/.+#(.+)/\1/')
+
 # generate a jekyll post page
 echo -n | tee _posts/$(date +%Y-%m-%d)-fm896-radio.md << EOF
 ---
@@ -33,6 +37,7 @@ title: "$title"
 date: $(date "+%Y-%m-%d %H:%M:%S") +0800
 categories: radio
 author: $authors
+tags: $original_author
 ---
 ![]({{site.baseurl}}/images/cover_$TODAY.jpg)
 
