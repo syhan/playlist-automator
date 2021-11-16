@@ -25,6 +25,8 @@ curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAY
 # reflect playlist content, all contents can be recovered if the raw metadata captured
 cat _data/$TODAY.json
 
+[ `jq -r '.playlist.tracks | length' _data/$TODAY.json` -eq 0 ] && exit 0 # playlist is empty, normal exit
+
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' _data/$TODAY.json`
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
