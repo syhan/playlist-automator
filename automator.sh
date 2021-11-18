@@ -37,6 +37,16 @@ curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7072206584&t
 comment=`jq -r '.playlist.description' _data/$TODAY.json`
 curl -b cookie.txt "${NETEASE_MUSIC_API}/comment?t=1&type=2&id=7072206584&content=$comment"
 
+# generate selected playlist
+curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=7075526802" -o selected_playlist.json
+cat selected_playlist.json
+
+selected=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' selected_playlist.json`
+curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=7075526802&tracks=$selected"
+echo `cat tracks | sort -nr | head -n 20 | cut -w -f3` | sed -r 's/ /,/g' > top20.txt
+curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7075526802&tracks=`cat top20.txt`"
+rm top20.txt selected_playlist.json
+
 rm cookie.txt # then we don't need the cookie anymore, delete for safety purpose
 
 # generate today's article
