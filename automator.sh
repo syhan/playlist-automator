@@ -43,7 +43,7 @@ cat selected_playlist.json
 
 selected=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' selected_playlist.json`
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=7075526802&tracks=$selected"
-echo `cat tracks | sort -nr | head -n 20 | cut -w -f3` | sed -r 's/ /,/g' > top20.txt
+echo `cat tracks | sort -nr | head -n 20 | sort | sed -r 's/^ +//g' | cut -d" " -f2` | sed -r 's/ /,/g' > top20.txt
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7075526802&tracks=`cat top20.txt`"
 rm top20.txt selected_playlist.json
 
