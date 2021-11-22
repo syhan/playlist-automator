@@ -25,7 +25,10 @@ curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAY
 # reflect playlist content, all contents can be recovered if the raw metadata captured
 cat _data/$TODAY.json
 
-[ `jq -r '.playlist.tracks | length' _data/$TODAY.json` -eq 0 ] && exit 0 # playlist is empty, normal exit
+if [ `jq -r '.playlist.tracks | length' _data/$TODAY.json` -eq 0 ]; then # playlist is empty, normal exit
+    rm _data/$TODAY.json # the playlist is not useful, remove it
+    exit 0 
+fi
 
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' _data/$TODAY.json`
@@ -54,5 +57,8 @@ bash -x ../generate.sh
 
 # statistics to aggregate metrics 
 bash -x ../statistics.sh
+
+# statistics to aggregate metrics by using sqlite3
+bash -x ../stats.sh
 
 cd ..
