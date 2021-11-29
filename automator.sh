@@ -33,12 +33,15 @@ fi
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' _data/$TODAY.json`
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
+# update the description to be tomorrow's date
+tomorrow=`date -v+1d +%Y/%m/%d`
+curl -b cookie.txt --data-urlencode "content=$tomorrow 主题：？？？#??" "${NETEASE_MUSIC_API}/comment?t=1&type=2&id=${NETEASE_MUSIC_PLAYLIST_ID}"
 
 # add tracks to the playlist
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7072206584&tracks=$tracks"
 # put the description of the playlist to the comment
 comment=`jq -r '.playlist.description' _data/$TODAY.json`
-curl -b cookie.txt "${NETEASE_MUSIC_API}/comment?t=1&type=2&id=7072206584&content=$comment"
+curl -b cookie.txt --data-urlencode "content=$comment" "${NETEASE_MUSIC_API}/comment?t=1&type=2&id=7072206584"
 
 # generate selected playlist
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=7075526802" -o selected_playlist.json
