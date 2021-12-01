@@ -25,7 +25,7 @@ ggplot(data = topContributors,
   geom_col() +
   labs(x = NULL,
        y = "贡献数") +
-  theme(text = element_text(family = 'STXihei'),
+  theme(text = element_text(family = 'STHeiti'),
         axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) 
 
 library(dplyr)
@@ -40,7 +40,7 @@ ggplot(dailyContrib, aes(x = as.Date(DAY), y = daily, size = daily)) +
   geom_smooth(method = "loess") + 
   guides(size = "none") +
   labs(x = NULL, y = "歌曲数") +
-  theme(text = element_text(family = 'STXihei'))
+  theme(text = element_text(family = 'STHeiti'))
 
 library(wordcloud2) 
 
@@ -58,10 +58,34 @@ contributors <- tbl(con, "contributors") %>%
   inner_join(tbl(con, "contributions"), "UID") %>%
   group_by(name) %>%
   summarise(count = count(name)) %>%
+  show_query() %>%
   as.data.frame()
 
-print(contributors)
+treemap(contributors, index = "name", vSize = "count", type="index", fontfamily.labels = "STHeiti")
 
-treemap(contributors, index = "name", vSize = "count", type="index", fontfamily.labels = "STXihei")
+library(networkD3)
+
+contribArtist <- dbGetQuery(
+  con,
+  '
+SELECT * FROM (
+  SELECT b.NAME, c.ARTIST, COUNT(a.TRACK_ID) AS TOTAL FROM contributions AS a
+  INNER JOIN contributors AS b
+  ON a.UID = b.UID
+  INNER JOIN tracks AS c
+  ON a.TRACK_ID = c.TRACK_ID
+  GROUP BY b.NAME, c.ARTIST
+  ORDER BY b.NAME, COUNT(a.TRACK_ID), c.ARTIST DESC
+) WHERE TOTAL > 2'
+)
+
+nodes <- data.frame(name=c(as.character(contribArtist$NAME), as.character(contribArtist$ARTIST)) %>% unique())
+contribArtist$IDsource=match(contribArtist$NAME, nodes$name)-1 
+contribArtist$IDtarget=match(contribArtist$ARTIST, nodes$name)-1
+
+sankeyNetwork(Links = contribArtist, Nodes = nodes,
+              Source = "IDsource", Target = "IDtarget",
+              Value = "TOTAL", NodeID = "name", 
+              sinksRight=FALSE, fontFamily = "STHeiti")
 
 dbDisconnect(con)
