@@ -48,5 +48,6 @@ find ./_data -name "*.json" | xargs jq -r "\"INSERT INTO albums VALUES ('\" + (.
 # history
 find ./_data -name "*.json" | xargs jq -r "\"INSERT INTO history VALUES ('\" + (.playlist | .description[0:10] + \"', '\" + .description[11:100]) + \"');\"" | sort | uniq >> schema.sql
 
-sqlite3 < schema.sql
+rm stats.db
+sqlite3 stats.db < schema.sql
 
