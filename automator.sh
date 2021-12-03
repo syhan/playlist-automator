@@ -35,7 +35,7 @@ tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' _data/$TODAY.js
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 # update the description to be tomorrow's date
 tomorrow=`date -d "+1 day" +%Y/%m/%d`
-curl -b cookie.txt --data-urlencode "desc=$tomorrow 主题：？？？#??" "${NETEASE_MUSIC_API}/playlist/desc/update&id=${NETEASE_MUSIC_PLAYLIST_ID}"
+curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/desc/update&id=${NETEASE_MUSIC_PLAYLIST_ID}&desc=$tomorrow 主题：？？？#??"
 
 # add tracks to the playlist
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7072206584&tracks=$tracks"
