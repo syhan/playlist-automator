@@ -1,7 +1,8 @@
 library(DBI)
 library(ggplot2)
+library(RSQLite)
 
-setwd("/Users/i063815/Workspace/syhan/playlist-automator")
+setwd("~/Workspace/syhan/playlist-automator")
 con <- dbConnect(RSQLite::SQLite(), "./stats.db")
 
 topContributors <- dbGetQuery(
