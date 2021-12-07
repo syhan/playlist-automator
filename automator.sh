@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e # in case of any error, stop executing the subsequence command
+# set -e # in case of any error, stop executing the subsequence command
 
 # get netease cloud music API server running locally
 git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
@@ -23,7 +23,7 @@ curl -c cookie.txt "${NETEASE_MUSIC_API}/login?email=${NETEASE_MUSIC_USERNAME}&p
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o _data/$TODAY.json
 
 # reflect playlist content, all contents can be recovered if the raw metadata captured
-# cat _data/$TODAY.json
+cat _data/$TODAY.json ｜ base64
 
 if [ `jq -r '.playlist.tracks | length' _data/$TODAY.json` -eq 0 ]; then # playlist is empty, normal exit
     rm _data/$TODAY.json # the playlist is not useful, remove it

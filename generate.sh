@@ -1,5 +1,5 @@
 #!/bin/bash 
-set -e
+# set -e
 
 TZ='Asia/Shanghai'
 TODAY=`date +%Y%m%d`
