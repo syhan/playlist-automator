@@ -37,6 +37,11 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: playlist automation
         run: bash -x automator.sh
+        env:
+          NETEASE_MUSIC_API: ${{ secrets.NETEASE_MUSIC_API }}
+          NETEASE_MUSIC_USERNAME: ${{ secrets.NETEASE_MUSIC_USERNAME }}
+          NETEASE_MUSIC_PASSWORD: ${{ secrets.NETEASE_MUSIC_PASSWORD }}
+          NETEASE_MUSIC_PLAYLIST_ID: ${{ secrets.NETEASE_MUSIC_PLAYLIST_ID }}
 
 
       - name: deploy
