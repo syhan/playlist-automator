@@ -49,7 +49,7 @@ INSERT INTO contributors VALUES ('483270183', '憖憖a');
 INSERT INTO contributors VALUES ('540114760', '黑黑黑矮星-');
 INSERT INTO contributors VALUES ('545181844', '-ccrystal_');
 INSERT INTO contributors VALUES ('1299733662', '透过星星的月亮');
-INSERT INTO contributors VALUES ('1497085517', '我不知道风从哪里来_');
+INSERT INTO contributors VALUES ('1497085517', '忽然停止扇动');
 INSERT INTO contributors VALUES ('1647240833', '晨一染');
 INSERT INTO contributors VALUES ('1803720314', '三絲餃子');
 INSERT INTO contributors VALUES ('1969429200', '希澈yuri9doo');
