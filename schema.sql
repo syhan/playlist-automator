@@ -75,7 +75,7 @@ INSERT INTO contributors VALUES ('529053069', '银河没有尖叫鸡');
 INSERT INTO contributors VALUES ('540114760', '黑黑黑矮星-');
 INSERT INTO contributors VALUES ('541001620', '土豆大笨蛋');
 INSERT INTO contributors VALUES ('545181844', '-ccrystal_');
-INSERT INTO contributors VALUES ('549349097', 'MyChemical_Romance');
+INSERT INTO contributors VALUES ('549349097', '他们的一员-');
 INSERT INTO contributors VALUES ('554972931', '好好学习努力暴富');
 INSERT INTO contributors VALUES ('574000875', '林羡鱼小姐');
 INSERT INTO contributors VALUES ('616618652', '盛夏--剩下');
