@@ -73,7 +73,7 @@ INSERT INTO contributors VALUES ('549349097', '他们的一员-');
 INSERT INTO contributors VALUES ('616618652', '盛夏--剩下');
 INSERT INTO contributors VALUES ('1299733662', '透过星星的月亮');
 INSERT INTO contributors VALUES ('1323257970', '流金年华1994');
-INSERT INTO contributors VALUES ('1341334825', 'Dada-LYL');
+INSERT INTO contributors VALUES ('1341334825', '乖乖乖小宇');
 INSERT INTO contributors VALUES ('1401759075', '-Dysss');
 INSERT INTO contributors VALUES ('1497085517', '忽然停止扇动');
 INSERT INTO contributors VALUES ('1528570202', 'oldsoup-');
