@@ -27,7 +27,7 @@ CREATE TABLE history (
     THEME TEXT
 );
 
-INSERT INTO contributors VALUES ('11997809', '不安小思er');
+INSERT INTO contributors VALUES ('11997809', '新街口Emo-girl');
 INSERT INTO contributors VALUES ('20226098', '大藏藏');
 INSERT INTO contributors VALUES ('41625506', '默已释然');
 INSERT INTO contributors VALUES ('52272721', 'Zeigarnik__');
