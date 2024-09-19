@@ -1,459 +1,1228 @@
-     19 王菲
-     12 彭坦
-      9 达达乐队
-      9 孙燕姿
-      9 deca joins
-      8 朴树
-      7 莫文蔚
+    114 王菲
+     58 达达乐队
+     47 彭坦
+     42 陈奕迅
+     40 朴树
+     32 张震岳
+     31 孙燕姿
+     27 莫文蔚
+     27 张悬
+     26 椅子乐团 The Chairs
+     24 五月天
+     23 张国荣
+     22 张学友
+     21 陈绮贞
+     19 陶喆
+     19 痛仰乐队
+     19 万能青年旅店
+     18 花儿乐队
+     17 郑钧
+     17 deca joins
+     16 许巍
+     16 毛不易
+     16 旅行团
+     16 戴佩妮
+     16 好妹妹
+     16 刺猬
+     15 赵雷
+     15 范晓萱
+     15 方大同
+     14 许嵩
+     14 无边界音乐
+     14 新裤子
+     14 Beyond
+     13 逃跑计划
+     13 苏打绿
+     13 告五人
+     12 寸铁
+     12 伍佰 & China Blue
+     11 老狼
+     11 罗大佑
+     11 房东的猫
+     11 刘森
+     11 任贤齐
+     11 Schoolgirl byebye
+     10 霓虹花园
+     10 蛙池
+     10 群星
+     10 棱镜
+     10 昨夜派对（L.N Party）
+     10 张惠妹
+      9 魏如萱
+      9 陈洁仪
+      9 萧敬腾
+      9 窦唯
+      9 福禄寿FloruitShow
+      9 林忆莲
+      9 周迅
+      9 反光镜
+      9 余佳运
+      9 丢火车
+      9 Quark
+      9 GALA
+      8 风子
+      8 陈粒
+      8 谢天笑
+      8 橘子海 (Orange Ocean)
+      8 林俊杰
+      8 杨乃文
+      8 李玟
+      8 李宗盛
+      8 李健
+      8 春晓
+      8 夏日入侵企画
+      8 声音玩具
+      7 陈婧霏
+      7 郑宜农
+      7 达闻西乐队
+      7 梅艳芳
+      7 杨千嬅
       7 明堂唱片
-      6 魏如萱
-      6 陈奕迅
-      6 刺猬
-      5 陈绮贞
-      5 赵雷
-      5 林俊杰
-      5 李健
-      5 新裤子
-      5 伍佰 & China Blue
-      5 Mark Knopfler
-      4 逃跑计划
-      4 许巍
-      4 落日飞车
-      4 椅子乐团 The Chairs
-      4 方大同
-      4 好妹妹
+      7 无印良品
+      7 张玮玮
+      7 康士坦的变化球
+      7 岛屿心情
+      7 周华健
+      7 低苦艾
+      6 高旗&超载乐队
+      6 郝云
+      6 郁可唯
+      6 邓丽君
+      6 达达
+      6 蔡健雅
+      6 蔡依林
+      6 脆莓(Brickleberry)
+      6 焦迈奇
+      6 浅堤
+      6 法兹乐队 FAZI
+      6 梁静茹
+      6 旅行团乐队
+      6 张杰
+      6 康姆士COM'Z
+      6 声音碎片乐队
+      6 叶蓓
+      6 卢冠廷
+      6 刘若英
+      6 五条人
+      6 七八点
+      6 THE BOOTLEGS 靴腿
+      6 Michael Jackson
+      6 G.E.M.邓紫棋
+      6 Coldplay
+      5 黑撒
+      5 麦田守望者
+      5 顶楼的马戏团
+      5 韩红
+      5 野孩子
+      5 郭顶
+      5 许钧
+      5 草东没有派对
+      5 苏运莹
+      5 自然卷
+      5 羽·泉
+      5 白日密语
+      5 温和治疗(MILDCURE)
+      5 海底时光机
+      5 梁博
+      5 柳爽
+      5 曾轶可
+      5 曹方
+      5 惘闻
+      5 徐佳莹
+      5 当代电影大师
+      5 帆布小镇（Canvas Townlet）
+      5 孙悦
+      5 品冠
+      5 吴青峰
+      5 傻子与白痴
+      5 二手玫瑰
+      5 久石譲
+      5 万晓利
+      5 deca joins 郑敬儒
+      5 Tizzy T
+      5 Bob Dylan
+      4 马頔
+      4 顺子
+      4 阁楼演奏班
+      4 郭峰
+      4 那英
+      4 还潮
+      4 许茹芸
+      4 许美静
+      4 莫西子诗
+      4 老王乐队
+      4 纵贯线
+      4 祖海
+      4 白天不亮
+      4 理想后花园
+      4 王杰
+      4 王心凌
+      4 王力宏
+      4 王以太
+      4 浪
+      4 法老
+      4 梁咏琪
+      4 林志炫
+      4 林宥嘉
+      4 晨曦光廊
+      4 新学校废物合唱团
+      4 崔开潮
+      4 孟慧圆
+      4 大张伟
+      4 夏之禹
+      4 回春丹
+      4 嘎调
+      4 哪吒乐队
+      4 古巨基
       4 卢广仲
-      4 凤凰传奇
-      4 五月天
-      4 万能青年旅店
-      3 齐豫
-      3 高旗&超载乐队
-      3 陶喆
-      3 陈粒
-      3 陈婧霏
-      3 金玟岐
-      3 达闻西乐队
-      3 许嵩
-      3 花儿乐队
-      3 群星
-      3 痛仰乐队
-      3 橘子海 (Orange Ocean)
-      3 昨夜派对（L.N Party）
-      3 无边界音乐
-      3 旅行团
-      3 房东的猫
-      3 徐佳莹
-      3 张学友
-      3 夏日入侵企画
-      3 声音碎片乐队
-      3 地磁卡
-      3 告五人
-      3 任贤齐
+      4 光良
+      4 伍佰
+      4 上海彩虹室内合唱团
+      4 Taylor Swift
+      4 Mark Knopfler
+      4 Chinese Football
+      4 A公馆
+      3 齐秦
+      3 齐一
+      3 黑色收音机派对
+      3 鹿先森乐队
+      3 鲸鱼马戏团
+      3 鱼丁糸
+      3 马赛克
+      3 音乐好朋友
+      3 韦礼安
+      3 青年小伙子
+      3 陳華
+      3 陈珊妮
+      3 阿肆
+      3 郭采洁
+      3 郭富城
+      3 郑智化
+      3 辛晓琪
+      3 贰佰
+      3 谢春花
+      3 蜷花仕女
+      3 薛凯琪
+      3 薛之谦
+      3 蔡国庆
+      3 落日飞车
+      3 萧亚轩
+      3 菲道尔
+      3 腰乐队
+      3 胡歌
+      3 筠子
+      3 盘尼西林
+      3 白举纲
+      3 甜約翰 Sweet John
+      3 王筝
+      3 熊天平
+      3 点灯人（Lamplighters）
+      3 火风
+      3 满江
+      3 温岚
+      3 洪佩瑜
+      3 江美琪
+      3 林子祥
+      3 李荣浩
+      3 李心洁
+      3 李克勤
+      3 时间不够以后
+      3 无妄合作社
+      3 张宇
+      3 小虎队
+      3 宋祖英
+      3 宋捷
+      3 宋冬野
+      3 安溥 anpu
+      3 安娜其
+      3 坂本龍一
+      3 坂本慎太郎
+      3 周深
+      3 南西肯恩
+      3 动物园钉子户
+      3 刘昊霖
+      3 刘惜君
+      3 八三夭
+      3 九连真人
+      3 中森明菜
       3 中国娃娃
-      3 万晓利
-      3 Tizzy T
+      3 eason and the duo band
+      3 The Mamas & the Papas
+      3 The Beatles
+      3 Starship
+      3 Sekai no Owari
+      3 Radiohead
+      3 Pink Floyd
+      3 Peace Hotel(和平饭店)
+      3 Muma木马
+      3 Matt吕彦良
       3 Major Yao
-      2 鱼丁糸
-      2 马頔
-      2 风子
-      2 面孔乐队
-      2 青年小伙子
-      2 陈淑桦
-      2 陈洁仪
-      2 阁楼演奏班
+      3 MC HotDog 热狗
+      3 Jony J
+      3 Jessie J
+      3 ICE
+      3 Green Day
+      3 FINNEAS
+      3 Eric Clapton
+      3 Casino Demon
+      3 Bad Sweetheart
+      2 齐豫
+      2 黄雨篱
+      2 黄晓明
+      2 黄心心
+      2 黄征
+      2 黄俊杰
+      2 麻园诗人
+      2 鸟撞 Birdstriking
+      2 鲍家街43号
+      2 魏晨
+      2 马照琪
+      2 马思唯
+      2 韩寒
+      2 霜默（Frosty Silence）
+      2 陈鸿宇
+      2 陈硕子
+      2 陈晓东
+      2 陈慧琳
+      2 陈慧娴
+      2 陈小熊
+      2 陈小春
+      2 陈冠希
+      2 阿跨面
+      2 阿杜
+      2 闪星TwinkleStar
+      2 钟立风
+      2 金玟岐
       2 金海心
-      2 郭顶
-      2 郭采洁
-      2 郭峰
+      2 野菊花
+      2 野外合作社
+      2 重塑雕像的权利
+      2 郑伟杰Nigel
+      2 赵家强
+      2 赵子琪
+      2 贰伍吸菸所 Smoking Area 25
+      2 谭维维
       2 谢霆锋
-      2 许美静
-      2 蔡国庆
-      2 蔡健雅
-      2 蔡依林
-      2 萧敬腾
+      2 谢安琪
+      2 角松敏生
+      2 蛋堡
+      2 蔡旻佑
+      2 蓝贝芝
+      2 蒋大为
       2 莫非定律MoreFeel
-      2 莫西子诗
-      2 范晓萱
-      2 苏芮
-      2 自由发挥
-      2 缺省
-      2 祖海
-      2 白天不亮
-      2 白举纲
-      2 理想后花园
-      2 王力宏
-      2 焦迈奇
-      2 温岚
+      2 荷尔蒙少年 Hormone Boys
+      2 花粥
+      2 花澤香菜
+      2 艾瑞欧ERIOE
+      2 脏手指 Oh! Dirty Fingers
+      2 胡夏
+      2 肯迪仔
+      2 竹内まりや
+      2 程璧
+      2 秦昊
+      2 田馥甄
+      2 田震
+      2 王鲁飞lufy
+      2 狮童乐队
+      2 牛奶咖啡
+      2 熊猫眼乐队
+      2 潮池蓝
+      2 温蒂漫步
+      2 海龟先生
       2 海德薇乐队(THE HEDWIG)
-      2 法兹乐队 FAZI
-      2 梁静茹
-      2 李玟
-      2 春晓
+      2 泥鳅Zinco
+      2 沙一汀EL
+      2 沈腾
+      2 汪苏泷
+      2 毛宁
+      2 根岸貴幸
+      2 杨钰莹
+      2 杨峻荣
+      2 杨坤
+      2 杨丞琳
+      2 李雪莱
+      2 李春波
+      2 木村弓
+      2 暴躁的兔子
       2 旺福
-      2 散人
-      2 惘闻
-      2 张震岳
+      2 撒娇
+      2 打倒三明治
+      2 戴荃
+      2 愚月FoolMoon
+      2 徐秉龙
+      2 当山ひとみ
+      2 张雯倩
+      2 张雨生
+      2 张蔷
       2 张艾嘉
-      2 张玮玮
-      2 张惠妹
-      2 岛屿心情
+      2 张楚
+      2 张敬轩
+      2 张广天
+      2 张希
+      2 张宥浩
+      2 张含韵
+      2 张信哲
+      2 庞龙
+      2 岡崎倫典
       2 尧十三
-      2 宋祖英
-      2 大波浪
-      2 夏之禹
-      2 周迅
+      2 尤长靖
+      2 小野リサ
+      2 小河
+      2 小柯
+      2 小娟&山谷里的居民
+      2 容祖儿
+      2 宝宝巴士
+      2 安来宁
+      2 宇多田ヒカル
+      2 孙盛希
+      2 孙楠
+      2 孔雀眼
+      2 地磁卡
+      2 囍浪
+      2 唯利玉碎计划
+      2 唐西锐
+      2 咖喱3000
+      2 和田光司
+      2 周蕙
       2 周杰伦
-      2 周华健
-      2 吴青峰
-      2 叶蓓
-      2 反光镜
-      2 刘欢
-      2 五条人
-      2 九连真人
-      2 久石譲
-      2 Vichaya Vatanasapt
+      2 周奇
+      2 周兴哲
+      2 吴赫
+      2 吴恩琪
+      2 吴彦姝
+      2 吕继宏
+      2 吕方
+      2 叶欢
+      2 卡奇社
+      2 功夫胖KungFuPen
+      2 刘逸诗
+      2 刘浩存
+      2 刘昊然
+      2 刘德华
+      2 凹与山
+      2 凤飞飞
+      2 冯绍峰
+      2 侯佩岑
+      2 五月天 阿信
+      2 云雀合唱团
+      2 乔杉
+      2 乔任梁
+      2 乐园里乐团
+      2 中島美嘉
+      2 万芳
+      2 イルカポリス 海豚刑警
+      2 あいみょん
+      2 never young beach
+      2 moumoon
+      2 VH (Vast & Hazy)
+      2 The fin.
       2 SwagKelly
-      2 Sekai no Owari
-      2 Matt吕彦良
-      2 Jony J
+      2 Supper Moment
+      2 Summer Salt
+      2 Sodagreen
+      2 Silk Sonic
+      2 Shanghai Qiutian
+      2 San ves
+      2 S.H.E
+      2 Quark夸克乐队
+      2 PP Krit
+      2 NoLabelCrew
+      2 Nicki Minaj
+      2 Måneskin
+      2 Maximilian Hecker
+      2 Markéta Irglová
+      2 Mariah Carey
+      2 Mai
+      2 MC Hotdog
+      2 Ludacris
+      2 Kurosuke
+      2 Keira Knightley
+      2 JiaWeiXian
+      2 Jason Mraz
+      2 Jannabi
+      2 IU
+      2 HYBS
+      2 HUSH
+      2 Glen Hansard
+      2 Fine乐团
+      2 Fiji Blue
+      2 F4
+      2 Ed Sheeran
+      2 DP龙猪
+      2 DOUDOU
       2 D.Mao
-      2 Cicada
+      2 Céline Dion
+      2 Crispy脆乐团
+      2 Cigarettes After Sex
+      2 Chunho
+      2 Christina Perri
       2 Cee
-      2 Beyond
-      2 Bad Sweetheart
-      1 齐秦
+      2 Carpenters
+      2 Caca & Chimneycrow
+      2 CJ 周密
+      2 Bruno Mars
+      2 Beyoncé
+      2 BR44
+      2 Avril Lavigne
+      2 Arthur Grumiaux
+      2 Ariana Grande
+      2 Aqua
+      2 Andrea Bocelli
+      2 Anderson Paak
+      2 Adele
+      1 龚琳娜
       1 黑豹乐队
-      1 黑裙子
-      1 黑撒
-      1 黄明昊 (Justin)
-      1 黄心心
-      1 黄大炜
+      1 黑屋乐队
+      1 黎明
+      1 黄龄
+      1 黄韵玲
+      1 黄贯中
+      1 黄英
+      1 黄玠
+      1 黄小桢
+      1 黄唯铭
+      1 黄义达
       1 黄丽玲
-      1 黄中原
-      1 麦田守望者
+      1 麗美
+      1 鹿京周
       1 鹤这豹脾气
-      1 鲸鱼马戏团
-      1 魏晨
+      1 鲜于贞娥
+      1 鲁向卉
+      1 鱼翅Fin
+      1 高胜美
+      1 高玮浩
       1 高橋優
-      1 马赛克
-      1 马融
-      1 马照琪
-      1 马思唯
+      1 骑自行车的风景
+      1 驴
+      1 马念先
+      1 颜人中
       1 颗粒
-      1 顺子
-      1 韩红
-      1 韩沐伯
+      1 音乐舞蹈史诗《东方红》合唱队
+      1 韩磊
       1 韩东君
-      1 韦礼安
-      1 鞠红川
-      1 静物乐团
-      1 青山桐子
-      1 霜默（Frosty Silence）
-      1 陳華
-      1 陈鸿宇
-      1 陈红
-      1 陈珊妮
-      1 陈少华
+      1 青蛙乐队
+      1 雷梅苔丝
+      1 雷升利
+      1 雷光夏
+      1 雪村
+      1 雨来
+      1 隔壁老樊
+      1 隔壁团乐队
+      1 陷阱表哥
+      1 陶国生
+      1 陈飚
+      1 陈雪燃
+      1 陈翔
+      1 陈翌朦
+      1 陈百强
+      1 陈淑桦
+      1 陈柏霖
+      1 陈柏宇
+      1 陈松伶
+      1 陈明
+      1 陈文非
+      1 陈坤
+      1 陈冠蒲
+      1 陈一豆
       1 陆虎
-      1 阿达娃
-      1 阿肆
+      1 阿萨Aza
       1 阿甯
-      1 长岛雄一
-      1 長嶝高士
-      1 钱正昊
+      1 阿爆
+      1 阿朵
+      1 阿岛先生
+      1 银临
       1 钢心
-      1 钟易轩
-      1 野菊花
+      1 钟镇涛
+      1 钟明秋
+      1 钟志刚
+      1 鈴木常吉
+      1 金贵晟
+      1 金池
+      1 金叙宏
+      1 野島健児
+      1 酒窝
+      1 都智文
       1 郭静
       1 郭一凡
-      1 郑钧
-      1 郎朗
+      1 郝蕾
+      1 郑物尘
+      1 郑天宇
+      1 郑兴
+      1 郑云龙
       1 郁一凡
-      1 那英
-      1 那奇沃夫
+      1 邵帅
+      1 邵夷贝
+      1 那艺娜
+      1 逃走鮑伯
+      1 送春归
       1 退格Backspace
+      1 迷幻世界乐队
+      1 迪木
       1 迪克牛仔
-      1 达达
-      1 边远
-      1 辛晓琪
+      1 迟亦骁
+      1 近藤浩治
+      1 辛云来
       1 跳大海
+      1 超级市场
+      1 赵雅芝
+      1 赵钶
+      1 赵辰龙(Dragon X)
+      1 赵英博
+      1 赵照
+      1 赵本山
+      1 赵俊杰
+      1 赛璐璐
+      1 赖雅妍
       1 费翔
+      1 贝卡
       1 谷柏杉
       1 谷村新司
+      1 谭咏麟
       1 谣子
-      1 谢春花
+      1 谢震廷
+      1 谢雨欣
+      1 谢帝
+      1 谢博哲
+      1 谈莉娜
+      1 许镜清
+      1 许绍洋
+      1 许志安
       1 许光汉
-      1 角松敏生
+      1 西崎崇子
+      1 西安老钱
       1 裘德
-      1 蜡笔小心
-      1 薛凯琪
-      1 薛之谦
-      1 蓝贝芝
-      1 董又霖
-      1 萧亚轩
-      1 菲道尔
-      1 菅野よう子
-      1 茄子蛋
+      1 袁田
+      1 袁娅维TIA RAY
+      1 虞洋
+      1 虞书欣
+      1 薛诒丹
+      1 蔡翊昇
+      1 蔡琴
+      1 蔡幸娟
+      1 蔡宇宁
+      1 蒋先贵（Giogio）
+      1 萨顶顶
+      1 萧玮
+      1 萧煌奇
+      1 菊池桃子
+      1 菅田将暉
+      1 莫文蔚;张洪量
+      1 莉莉周她說
+      1 草蜢
       1 范玮琪
-      1 范丞丞
+      1 苏芮
+      1 苏紫旭&The Paramecia
       1 芝麻Mochi
-      1 艾瑞欧ERIOE
-      1 舌头
+      1 艾索
+      1 艾热 AIR
+      1 艾怡良
+      1 舒大卫
+      1 自由发挥
       1 腾格尔
+      1 脑浊乐队
       1 胭脂
-      1 胡畔
-      1 肯迪仔
-      1 肆囍乐队
-      1 老狼
-      1 羽·泉
-      1 纵贯线
+      1 胡琳
+      1 羽果
+      1 美秀集团
+      1 羊秘密
+      1 羊文学
+      1 罗琦
+      1 缺省
       1 红白色乐队
+      1 红孩儿
+      1 红娃娃
       1 粒粒
-      1 米津玄師
       1 等一下就回家
-      1 窦唯
-      1 程琳
-      1 秦昊
-      1 福禄寿FloruitShow
-      1 矢尾一樹
+      1 童安格
+      1 章若楠
+      1 秘密後院
+      1 离羽墨
+      1 禤道秒
+      1 神木与瞳
+      1 石林
+      1 睡前谈话
       1 皮皮爱习题
+      1 皇后皮箱
       1 白雪
-      1 田馥甄
-      1 田震
-      1 田中真弓
-      1 甜約翰 Sweet John
-      1 王贰浪
-      1 王杰
+      1 白若溪
+      1 白百EndlessWhite
+      1 白水
+      1 瘦子E.SO
+      1 男才女貌
+      1 申升勋
+      1 田锋
+      1 生祥与瓦窑坑3
+      1 甜蜜抽搐SweetTic
+      1 王若琳
+      1 王焱
+      1 王梵瑞
+      1 王思远
+      1 王峥嵘
+      1 王小帅
       1 王子异
+      1 王嘉尔
+      1 王双骏
       1 王加一
+      1 王俊凯
+      1 王云宏
+      1 玉置浩二
+      1 玄彬
       1 狗才乐团
+      1 爱是唯一
       1 爆青筋BCJ
-      1 点唱机先生
-      1 游鸿明
-      1 洪卓立
-      1 泥鳅Zinco
-      1 法老
-      1 沈庆
-      1 江美琪
-      1 江涛
+      1 無望春 Nospring
+      1 灯灯灯泡
+      1 火星电台
+      1 潘辰
+      1 潘虹樾
+      1 温碧霞
+      1 渡洛西汀
+      1 液氧罐头
+      1 海鸣威
+      1 海朋森
+      1 海尾巴
+      1 海妖SeaMaiden
+      1 洛天依
+      1 泉まくら
+      1 沉默演讲（Silent Speech）
+      1 汪明荃
+      1 江映蓉
+      1 永彬Ryan.B
       1 永动机
+      1 水木年华
+      1 水仙LONE
       1 毛阿敏
-      1 毛宁
-      1 毛不易
-      1 毕雯珺
-      1 棱镜
-      1 梁汉文
-      1 栗先达
-      1 柿原徹也
-      1 林晓峰
-      1 林志炫
+      1 毛华锋
+      1 比莉
+      1 欧得洋
+      1 楽七俱乐部
+      1 棱镜乐队
+      1 梅卡德尔
+      1 梁朝伟
+      1 梁晓雪
+      1 桃子假象
+      1 桂莹莹
+      1 格格
+      1 栗锦
+      1 枯木逢春
+      1 林生祥
+      1 林晓培
+      1 林志颖
       1 林家谦
-      1 林子祥
+      1 林宝馨
+      1 林天然
+      1 林二汶
       1 杳杲乐队
-      1 杭盖乐队
-      1 杨非同
-      1 杨钰莹
-      1 杨坤
+      1 杨洪基
+      1 杨旭凯
       1 杨和苏KeyNG
-      1 杨乃文
+      1 杜德伟
+      1 杏里
+      1 杏子
+      1 李霄云
       1 李谷一
-      1 李荣浩
+      1 李若彤
+      1 李维
+      1 李瑨瑶
+      1 李润祺
+      1 李永驻
       1 李承铉
       1 李悦君Ericaceae
       1 李宇春
-      1 李云迪
+      1 李娜
+      1 李予溪
       1 李丁丁MIA AIM
-      1 朱芸霄
-      1 朱正廷
-      1 朱星杰
+      1 朴慧京
+      1 朱格乐
+      1 朱晓玫
       1 朱婧汐Akini Jing
-      1 木村弓
-      1 时间不够以后
-      1 无印良品
-      1 旅行团乐队
+      1 朱丹妮
+      1 未来寺
+      1 木小雅
+      1 朝简
+      1 曾可妮
+      1 曹羊
+      1 曹思义
+      1 暗杠
+      1 智齿
+      1 晚睡叭
+      1 晓月老板
+      1 春日玫瑰(Spring Roses)
+      1 易烊千玺
+      1 昏鸦
+      1 旺仔小乔
+      1 旭日阳刚
+      1 早安
+      1 日向めぐみ
+      1 无乐
+      1 旋转保龄
+      1 旅行新蜜蜂
       1 施鑫文月
-      1 方磊
-      1 新学校废物合唱团
+      1 方拾贰（方十二）
+      1 新青年理发厅
+      1 斯威特MCSWEET
+      1 斉藤和義
       1 文慧如
-      1 撒娇
+      1 文儿
+      1 拖特巴士
+      1 押尾コータロー
+      1 执纸大魔王
+      1 打扰一下乐团
+      1 我是機車少女
+      1 我为歌狂
       1 成龙
-      1 当代电影大师
-      1 弦子
-      1 张雯倩
+      1 悶餅MOONBAND
+      1 怀森
+      1 德德玛
+      1 徐怀钰
+      1 彝蒙组合
+      1 弱水WeakWaves
+      1 张韶涵
+      1 张过年
       1 张荣昊
-      1 张敬轩
-      1 张悬
+      1 张英席
+      1 张碧晨
+      1 张涵
+      1 张洪量
+      1 张本煜
+      1 张智霖
+      1 张怡然
+      1 张彬彬
       1 张小厚
-      1 张国荣
-      1 张三弥
+      1 张军
       1 庾澄庆
-      1 康姆士COM'Z
-      1 康士坦的变化球
-      1 庞龙
-      1 平田広明
+      1 常石磊
       1 布衣乐队
+      1 布朗尼
+      1 市井中乐队
+      1 巴啦啦小魔仙
+      1 巫启贤
+      1 左麟右李
       1 川子
-      1 嵐
-      1 崔健
-      1 岡村明美
-      1 山口勝平
+      1 岸部眞明
+      1 岑宁儿
       1 山下達郎
-      1 尤长靖
-      1 小田和正
-      1 小林由美子
-      1 寸铁
+      1 屯门儿童合唱团
+      1 屠洪刚
+      1 尚士达
+      1 小黄人
+      1 小猪佩奇
+      1 小安
+      1 小好Lil Good
       1 家家
+      1 宫阁
+      1 宣美
+      1 宝藏山 Treasure Hill
+      1 宝石Gem
+      1 宝島材料行
+      1 宗庸卓玛
       1 宋念宇
-      1 安溥 anpu
-      1 安来宁
-      1 安图声乐队
-      1 安元洋貴
-      1 孟慧圆
+      1 安辰
+      1 孤独的利里（Lonely Leary）
+      1 孤島
       1 孟庭苇
-      1 孙盛希
+      1 孟凡明
+      1 子芙
       1 娃娃
-      1 好妹妹乐队
+      1 姜荣科
+      1 女孩与机器人
+      1 太阳
+      1 天之籁音乐
       1 大黒摩季
-      1 大谷育江
-      1 大张伟
-      1 多明戈
-      1 声音玩具
-      1 坂本龍一
-      1 坂本慎太郎
-      1 国蛋
-      1 嘎调
-      1 喜多村英梨
+      1 大波浪
+      1 大小ann
+      1 大乔小乔
+      1 坤木Joymo
+      1 坏水
+      1 坂本真綾
+      1 地下婴儿
+      1 圣代
+      1 四枝筆 Four Pens
+      1 噪音回收站
+      1 嘿！！！
+      1 嘻嘻琳
       1 唐朝乐队
-      1 唐映枫
-      1 哪吒乐队
-      1 品冠
-      1 周锐
-      1 周彦辰
+      1 品冠儿子Jayden
+      1 呼吸
+      1 周洁琼
+      1 周旋
+      1 周子琰
+      1 周冬雨
       1 周云蓬
       1 吴遥
-      1 吴赫
-      1 吴恩琪
+      1 吴琼
+      1 吴克群
+      1 吕士轩
+      1 向瀟玥
+      1 后海大鲨鱼
+      1 后千禧浪潮
       1 吆拐
+      1 吃水母
+      1 叶青赛蓝
+      1 叶蒨文
       1 叶喜儿
-      1 卡奇社
+      1 叶世荣
+      1 可米小子
+      1 反光镜乐队
+      1 厨子和戏子
+      1 卫兰
+      1 卢庚戌
+      1 南青乐队
+      1 南无
       1 南拳妈妈
       1 单依纯
       1 卓越
       1 卓依婷
+      1 北寂吖
       1 包美圣
-      1 功夫胖KungFuPen
-      1 刘森
-      1 刘德华
-      1 倪健
+      1 动力火车
+      1 劣
+      1 加藤登紀子
+      1 刘畊宏
+      1 刘欢
+      1 刘悦spam-生番
+      1 刘恋
+      1 刘嘉玲
+      1 刘凹
+      1 刘凤瑶
+      1 刘东明
+      1 刀郎
+      1 凤凰传奇
+      1 冯晓泉
+      1 关颖
+      1 六个国王
+      1 八仙饭店 (8 Immortals Restaurant)
+      1 光头李进
+      1 儿童合唱团
+      1 倉木麻衣
+      1 信乐团
+      1 侯湘婷
+      1 何美延HAMY
+      1 何炅
+      1 何影
       1 何大河
-      1 伍佰
-      1 于文华
+      1 伤心欲绝
+      1 传琦SAMA
+      1 会说唱的语文老师
+      1 伍々慧
+      1 伊西永藏
+      1 任敏
+      1 付小墨
+      1 仁科
+      1 云飞
+      1 云朵
+      1 于贞
+      1 于晴
+      1 于嘉萌
       1 二狗子Saddoggy
-      1 乐园里乐团
-      1 中島美嘉
-      1 中井和哉
+      1 二向箔
+      1 买辣椒也用券
+      1 乌兰图雅
+      1 之乐而乐
+      1 中川イサト
+      1 中孝介
+      1 中央芭蕾舞团管弦乐队
+      1 中央人民广播电台少年广播合唱团
+      1 中国广播艺术团合唱团
+      1 中国人民解放军军乐团
+      1 与非门
       1 与少年他
+      1 不靠谱组合
+      1 不可撤销
       1 不优雅（biuya）
-      1 上海彩虹室内合唱团
-      1 七八点
-      1 丁泽仁
-      1 タニザワトモフミ
-      1 サザンオールスターズ
+      1 不一定
+      1 上海美术电影制片厂
+      1 上上
+      1 三册柏
+      1 万畅
+      1 丁芙妮
+      1 丁晓红
+      1 丁世光
+      1 ラブリーサマーちゃん
+      1 ユアネス
+      1 スガシカオ
       1 おおたか静流
+      1 いきものがかり
+      1 ʎpoqou
+      1 Ólafur Arnalds
+      1 yihuik苡慧
       1 té
-      1 royster lee
-      1 miwa
-      1 iogi
+      1 step.jad依加
+      1 pazi
+      1 mxmtoon
+      1 moose
+      1 lookingboy
+      1 iann dior
+      1 hyukoh
+      1 dylanf
+      1 c0de731
+      1 boboo
+      1 back number
       1 Zion.T
+      1 YoungHo赛文
+      1 YinTianXiang
       1 YAYYOUNG
+      1 X JAPAN
+      1 Woodes
+      1 Wolfgang Amadeus Mozart
       1 Wiz Khalifa
+      1 Wildflowers
+      1 Whitney Houston
+      1 White Noise Meditation
+      1 Wham!
       1 Westlife
+      1 WeirdoRoom 怪人房间
+      1 We the Kings
+      1 WUYO
+      1 WR/OC
+      1 Vitas
+      1 Vicky宣宣
+      1 Vichaya Vatanasapt
       1 Vaundy
-      1 VH (Vast & Hazy)
-      1 Todd Li
-      1 Tizzy Bac
+      1 Vancouver Sleep Clinic
+      1 V.A.
+      1 Us The Duo
+      1 UmzBeatz
+      1 Twins
+      1 Tove Lo
+      1 Tom Walker
       1 The-Beta
-      1 The fin.
-      1 The Rembrandts
+      1 The Weeknd
+      1 The Vaccines
+      1 The The
+      1 The Solids
+      1 The Righteous Brothers
+      1 The Police
+      1 The Mowgli's
       1 The Kills
-      1 The Coral Sea
-      1 The Black Eyed Peas
-      1 The Beatles
-      1 Taylor Swift
+      1 The Journeymen
+      1 The Jesus and Mary Chain
+      1 The Goo Goo Dolls
+      1 Teleman
+      1 Teddy Thompson
+      1 TangoZ
+      1 TageTage
+      1 Sunken Boat 沉舟乐队
       1 Sufjan Stevens
-      1 Starship
-      1 Sounds Of Nature
-      1 SoulFa 灵魂沙发
+      1 Strictlyviolin荀博
+      1 Sting
+      1 Steve Conte
+      1 Stephen Sanchez
+      1 Stephan Kreussel
+      1 Spylent
       1 Sophie Zelmani
       1 Sono白鹫呀
-      1 Sister Castle Theater
-      1 Schoolgirl byebye
+      1 Slitmy7
+      1 Skid Row
+      1 SipSu小口酥
+      1 Sino周夏影
+      1 Simon & Garfunkel
+      1 Shinya Kiyozuka
+      1 Shakira
+      1 Selena Gomez
+      1 Seether
+      1 Seatbelts
       1 Sarah Brightman
       1 Sara Lov
-      1 San ves
-      1 Saint Motel
-      1 S.H.E
+      1 Sam Tsui
+      1 STOLEN秘密行动
+      1 SORROW
+      1 SNØW
+      1 S U R V I V E
+      1 Ruth Moody
+      1 Rustic
+      1 Roi Müzik
+      1 Robbie Williams
       1 Ricky Nelson
+      1 Richard Marx
+      1 Richard Harvey
+      1 Richard Clayderman
+      1 Reol
+      1 Rachael Yamagata
+      1 RADWIMPS
+      1 Quinn XCII
       1 Queen
-      1 Quark
-      1 Peace Hotel(和平饭店)
-      1 PP Krit
-      1 P.O.E
+      1 Quavo
+      1 Priscilla Ahn
+      1 Primary
+      1 Post Malone
+      1 Pierre Bensusan
+      1 Phoebe Bridgers
+      1 P.K.14
+      1 Owl City
       1 Otto A Totland
-      1 Oleg Pogudin
+      1 OmenXIII
+      1 Oliver Dohnányi
+      1 OMFG
       1 OAO
-      1 NoLabelCrew
+      1 Novo Amor
+      1 Norah Jones
+      1 Noel Gallagher's High Flying Birds
       1 Nikos Ignatiadis
-      1 Nicki Minaj
+      1 New Philharmonia Orchestra
+      1 Natsu.
+      1 Nathan Trent
       1 Nathan Lane
-      1 Måneskin
-      1 Muma木马
+      1 Nathan Evans
+      1 N.Y.P.D. 南洋派對
       1 Ms.OOJA
-      1 Mr. Miss
-      1 Moisés Nieto
-      1 Me and My Sandcastle
-      1 Maroon 5
-      1 Mariah Carey
-      1 Mai
-      1 MC Hotdog
+      1 Mr.Children
+      1 Mr.
+      1 Morphine
+      1 Molchat Doma
+      1 Mojave 3
+      1 Mike Posner
+      1 Michael Nau
+      1 Melissa Mars
+      1 Mazzy Star
+      1 Max马俊
+      1 Max Steiner
+      1 Madonna
+      1 MONO
+      1 M83
+      1 M.D.
+      1 Ludovico Einaudi
+      1 Lucia Micarelli
       1 Louis Theroux
+      1 Loni Lovato
       1 London Symphony Orchestra
+      1 Logic
+      1 Lianne La Havas
+      1 Lexy Panterra
+      1 Les Solistes Romands
+      1 Les Gillis
+      1 LeeyOn李昂
+      1 Lee Ritenour
+      1 Lcz小强
+      1 Last Dinosaurs
+      1 Lana Del Rey
       1 Lamp
-      1 Lady Gaga
-      1 Joshua Radin
+      1 L1STALLDO(厘思翱渡)
+      1 Kurt Hugo Schneider
+      1 Kirsty刘瑾睿
+      1 Kings of Convenience
+      1 Kina
+      1 Khalid
+      1 Katy Perry
+      1 KILLY
+      1 KEY.L刘聪
+      1 Justin Bieber
+      1 Joyside
+      1 Joshua Hyslop
+      1 Josh Stewart
       1 Joseph Williams
-      1 Jessie J
+      1 John Mayer
+      1 Joe Dassin
+      1 Jessi
+      1 Jerry's Mirror
+      1 Jean-Marc Luisada
+      1 Jay-Z
       1 Jason Weaver
-      1 James Brown
       1 Jam
+      1 JAY'ED
+      1 Iwamizu
+      1 Imagine Dragons
+      1 Ice Paper
+      1 Hush!
       1 Higher Brothers
-      1 Hazy Nights
+      1 Herman Krebbers
+      1 Hello Nico
+      1 Heinz Holliger
+      1 Hea2t
+      1 Hayd
+      1 Harry Styles
       1 Hans Zimmer
-      1 HUSH
-      1 Gunachi Achirawich
+      1 Hailee Steinfeld
+      1 HONNE
       1 Grupo Musical Ginesitos
-      1 Green Day
+      1 Gracie Abrams
+      1 Goose house
+      1 Glorie
+      1 Glocky
+      1 Gibb-Z
       1 Gene Kelly
-      1 Geek Music
-      1 FINNEAS
-      1 F4
+      1 Galla
+      1 GAEKO
+      1 G.G张思源
+      1 G.G(张思源)
+      1 Félix Gray
+      1 Frankie Cosmos
+      1 France Clidat
+      1 ForeverLive
+      1 Florence + The Machine
+      1 Fenne Lily
+      1 Fa
+      1 FKJ
+      1 F.I.R.
       1 Ernie Sabella
-      1 Ed Sheeran
-      1 Eagles
+      1 Erik Satie
+      1 Enca
+      1 Emmi
+      1 Ellivensen
+      1 Elizabeth Mitchell
+      1 Edo de Waart
       1 EXO-M
+      1 E-girls
       1 Duke & Jones
-      1 Damien Rice
-      1 Dakota Suite
-      1 DEPAPEPE
-      1 DAOKO
+      1 Dua Lipa
+      1 Dogma
+      1 DiESi
+      1 Derek Pope
+      1 Dependence
+      1 DeepMountains深山
+      1 Dana Winner
+      1 Daft Punk
+      1 DISH//
       1 Crush
-      1 Cigarettes After Sex
+      1 Cory Wong
+      1 Coony
+      1 Conan Gray
+      1 ColorfulBar 彩文
+      1 Colbie Caillat
+      1 Claire Ridgely
+      1 Cicada
+      1 Chris Martin
+      1 Chris Brown
       1 Charlie Puth
+      1 Chantal Kreviazuk
+      1 CatSon
+      1 Casey Breves
+      1 Carsick Cars
+      1 Carrie Underwood
       1 Cardi B
-      1 Bradley Cooper
-      1 Band of Horses
-      1 Ariana Grande
-      1 American Football
+      1 Capella Istropolitana
+      1 CHVRCHES
+      1 CHILL GANG
+      1 CHEN
+      1 C.S.B.Q乐队
+      1 C-BLOCK
+      1 Bryan Adams
+      1 Brett Anderson
+      1 Boyz II Men
+      1 Blue
+      1 Bleachers
+      1 Billkin
+      1 Billie Eilish
+      1 Berlin Psycho Nurses（柏林护士）
+      1 Beau Young Prince
+      1 Audrey Hepburn
+      1 Ash King
+      1 Arthur Rubinstein
+      1 Arpad Gérecz
+      1 Arctic Monkeys
+      1 Angell
+      1 André Rieu
+      1 Aliosha
+      1 Adam Levine
+      1 Adam Hurst
+      1 AY楊佬叁
+      1 AURORA
       1 AThree
+      1 AQVOL
+      1 AMnesiac安尼西亚
+      1 AGA
+      1 9m88
+      1 69
+      1 24kGoldn
+      1 1Nose beatZ
       1 -艾兜
-      1  山口由里子
