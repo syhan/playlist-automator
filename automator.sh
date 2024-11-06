@@ -2,11 +2,11 @@
 # set -e # in case of any error, stop executing the subsequence command
 
 # get netease cloud music API server running locally
-git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
-cd NeteaseCloudMusicApi
-npm install
-nohup node app.js &
-cd ..
+#git clone https://github.com/syhan/NeteaseCloudMusicApi.git
+#cd NeteaseCloudMusicApi
+#npm install
+#nohup node app.js &
+#cd ..
 
 TZ='Asia/Shanghai'
 TODAY=`date +%Y%m%d`
