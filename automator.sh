@@ -20,7 +20,7 @@ rm -rf .git # not necessary
 # curl -c cookie.txt "${NETEASE_MUSIC_API}/login?email=${NETEASE_MUSIC_USERNAME}&password=${NETEASE_MUSIC_PASSWORD}" > /dev/null 2>&1
 
 # get current playlist
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o _data/$TODAY.json
+curl -L -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o _data/$TODAY.json
 
 # reflect playlist content, all contents can be recovered if the raw metadata captured
 cat _data/$TODAY.json | base64
@@ -32,25 +32,25 @@ fi
 
 # delete all tracks extracted from the playlist
 tracks=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' _data/$TODAY.json`
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
+curl -L -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=${NETEASE_MUSIC_PLAYLIST_ID}&tracks=$tracks"
 # update the description to be tomorrow's date
 tomorrow=`date -d "+1 day" +%Y/%m/%d`
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/desc/update&id=${NETEASE_MUSIC_PLAYLIST_ID}&desc=$tomorrow 主题：？？？#??"
+curl -L -b cookie.txt "${NETEASE_MUSIC_API}/playlist/desc/update&id=${NETEASE_MUSIC_PLAYLIST_ID}&desc=$tomorrow 主题：？？？#？？"
 
 # add tracks to the playlist
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7072206584&tracks=$tracks"
+curl -L -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7072206584&tracks=$tracks"
 # put the description of the playlist to the comment
 comment=`jq -r '.playlist.description' _data/$TODAY.json`
-curl -b cookie.txt --data-urlencode "content=$comment" "${NETEASE_MUSIC_API}/comment?t=1&type=2&id=7072206584"
+curl -L -b cookie.txt --data-urlencode "content=$comment" "${NETEASE_MUSIC_API}/comment?t=1&type=2&id=7072206584"
 
 # generate selected playlist
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=7075526802" -o selected_playlist.json
+curl -L -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=7075526802" -o selected_playlist.json
 cat selected_playlist.json
 
 selected=`jq -r '[.playlist.trackIds[].id | tostring] | join(",")' selected_playlist.json`
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=7075526802&tracks=$selected"
+curl -L -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=del&pid=7075526802&tracks=$selected"
 echo `cat tracks | sort -nr | head -n 20 | sort | sed -r 's/^ +//g' | cut -d" " -f2` | sed -r 's/ /,/g' > top20.txt
-curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7075526802&tracks=`cat top20.txt`"
+curl -L -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7075526802&tracks=`cat top20.txt`"
 rm top20.txt selected_playlist.json
 
 # we cannot delete the cookie.txt
