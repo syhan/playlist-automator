@@ -1,3 +1,6 @@
 _site/
-cookie.txt
 stats.db
+qr.png
+qr_status.json
+.DS_Store
+.R*

@@ -16,8 +16,8 @@ git clone --single-branch --branch gh-pages https://github.com/syhan/playlist-au
 cd playlists
 rm -rf .git # not necessary
 
-# login
-curl -c cookie.txt "${NETEASE_MUSIC_API}/login?email=${NETEASE_MUSIC_USERNAME}&password=${NETEASE_MUSIC_PASSWORD}" > /dev/null 2>&1
+# email login is not possible, the cookie is manually managed
+# curl -c cookie.txt "${NETEASE_MUSIC_API}/login?email=${NETEASE_MUSIC_USERNAME}&password=${NETEASE_MUSIC_PASSWORD}" > /dev/null 2>&1
 
 # get current playlist
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/detail?id=${NETEASE_MUSIC_PLAYLIST_ID}" -o _data/$TODAY.json
@@ -27,7 +27,7 @@ cat _data/$TODAY.json | base64
 
 if [ `jq -r '.playlist.tracks | length' _data/$TODAY.json` -eq 0 ]; then # playlist is empty, normal exit
     rm _data/$TODAY.json # the playlist is not useful, remove it
-    exit 0 
+    exit 0
 fi
 
 # delete all tracks extracted from the playlist
@@ -53,12 +53,13 @@ echo `cat tracks | sort -nr | head -n 20 | sort | sed -r 's/^ +//g' | cut -d" " 
 curl -b cookie.txt "${NETEASE_MUSIC_API}/playlist/tracks?op=add&pid=7075526802&tracks=`cat top20.txt`"
 rm top20.txt selected_playlist.json
 
-rm cookie.txt # then we don't need the cookie anymore, delete for safety purpose
+# we cannot delete the cookie.txt
+#rm cookie.txt # then we don't need the cookie anymore, delete for safety purpose
 
 # generate today's article
 bash -x ../generate.sh
 
-# statistics to aggregate metrics 
+# statistics to aggregate metrics
 bash -x ../statistics.sh
 
 # statistics to aggregate metrics by using sqlite3
