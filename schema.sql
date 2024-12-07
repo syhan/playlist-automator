@@ -53,7 +53,7 @@ INSERT INTO contributors VALUES ('110687265', '在聆听吗');
 INSERT INTO contributors VALUES ('120683830', '野橘叽');
 INSERT INTO contributors VALUES ('124923973', '想当一只松鼠');
 INSERT INTO contributors VALUES ('135134941', 'UrsaMinorBeta');
-INSERT INTO contributors VALUES ('135858701', '橙月leo');
+INSERT INTO contributors VALUES ('135858701', '橙月Leo');
 INSERT INTO contributors VALUES ('274802291', '少年未生');
 INSERT INTO contributors VALUES ('280754621', 'Cheung8');
 INSERT INTO contributors VALUES ('282370910', '日光不倾城');
