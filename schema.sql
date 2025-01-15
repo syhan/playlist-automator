@@ -78,7 +78,7 @@ INSERT INTO contributors VALUES ('549349097', '他们的一员-');
 INSERT INTO contributors VALUES ('554972931', '好好学习努力暴富');
 INSERT INTO contributors VALUES ('574000875', '林羡鱼小姐');
 INSERT INTO contributors VALUES ('616618652', '盛夏--剩下');
-INSERT INTO contributors VALUES ('1289905060', '贪吃小狗综合症');
+INSERT INTO contributors VALUES ('1289905060', '不可爱还很坏唉');
 INSERT INTO contributors VALUES ('1299733662', '透过星星的月亮');
 INSERT INTO contributors VALUES ('1323257970', '流金年华1994');
 INSERT INTO contributors VALUES ('1343967564', '-噼里啪啦丶');
