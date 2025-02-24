@@ -52,6 +52,7 @@ INSERT INTO contributors VALUES ('374278278', '稳如cheems');
 INSERT INTO contributors VALUES ('540114760', '黑黑黑矮星-');
 INSERT INTO contributors VALUES ('541001620', '土豆大笨蛋');
 INSERT INTO contributors VALUES ('545181844', '-ccrystal_');
+INSERT INTO contributors VALUES ('549349097', '他们的一员-');
 INSERT INTO contributors VALUES ('616618652', '盛夏--剩下');
 INSERT INTO contributors VALUES ('1497085517', '忽然停止扇动');
 INSERT INTO contributors VALUES ('1528570202', 'oldsoup-');
