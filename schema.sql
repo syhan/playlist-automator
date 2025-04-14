@@ -72,7 +72,7 @@ INSERT INTO contributors VALUES ('1341334825', '乖乖乖小宇');
 INSERT INTO contributors VALUES ('1401759075', '-Dysss');
 INSERT INTO contributors VALUES ('1497085517', '忽然停止扇动');
 INSERT INTO contributors VALUES ('1528570202', 'oldsoup-');
-INSERT INTO contributors VALUES ('1796305972', '小天狼星布莱克槑');
+INSERT INTO contributors VALUES ('1796305972', '想不到该起什么名字也重复');
 INSERT INTO contributors VALUES ('1803720314', '三絲餃子');
 INSERT INTO contributors VALUES ('1816422065', '最喜欢达达');
 INSERT INTO contributors VALUES ('1969429200', '希澈yuri9doo');
