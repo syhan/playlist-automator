@@ -30,6 +30,7 @@ CREATE TABLE history (
 INSERT INTO contributors VALUES ('11997809', '新街口Emo-girl');
 INSERT INTO contributors VALUES ('13905905', '你在放屁吗');
 INSERT INTO contributors VALUES ('20226098', '大藏藏');
+INSERT INTO contributors VALUES ('30701629', '我的名字只是一个符号');
 INSERT INTO contributors VALUES ('41625506', '默已释然');
 INSERT INTO contributors VALUES ('52272721', '横荷横荷');
 INSERT INTO contributors VALUES ('57189323', '小阿金啊');
@@ -651,6 +652,8 @@ INSERT INTO contributions VALUES ('20226098', '139375', '2022/04/06');
 INSERT INTO contributions VALUES ('109213963', '1450080846', '2022/04/06');
 INSERT INTO contributions VALUES ('109213963', '333750', '2022/04/06');
 INSERT INTO contributions VALUES ('109213963', '290589', '2022/04/06');
+INSERT INTO contributions VALUES ('30701629', '2098094827', '2025/04/18');
+INSERT INTO contributions VALUES ('296658058', '436698544', '2025/04/18');
 INSERT INTO contributions VALUES ('52272721', '35778386', '2021/12/13');
 INSERT INTO contributions VALUES ('52272721', '409031375', '2021/12/13');
 INSERT INTO contributions VALUES ('52272721', '247498', '2021/12/13');
