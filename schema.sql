@@ -42,7 +42,7 @@ INSERT INTO contributors VALUES ('75306666', '歪Joey');
 INSERT INTO contributors VALUES ('83715386', 'cidgur');
 INSERT INTO contributors VALUES ('100091090', '任可爱-');
 INSERT INTO contributors VALUES ('109213963', '会有猫的咸菜');
-INSERT INTO contributors VALUES ('109902362', 'NightCar0312');
+INSERT INTO contributors VALUES ('109902362', 'NightCar529');
 INSERT INTO contributors VALUES ('124923973', '想当一只松鼠');
 INSERT INTO contributors VALUES ('135858701', '橙月Leo');
 INSERT INTO contributors VALUES ('274802291', '少年未生');
