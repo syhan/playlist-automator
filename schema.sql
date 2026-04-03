@@ -99,7 +99,7 @@ INSERT INTO contributors VALUES ('1647240833', '晨一染');
 INSERT INTO contributors VALUES ('1664426420', 'EstrusNB');
 INSERT INTO contributors VALUES ('1796305972', '想不到该起什么名字也重复');
 INSERT INTO contributors VALUES ('1803720314', '三絲餃子');
-INSERT INTO contributors VALUES ('1816422065', 'keonho灰灰');
+INSERT INTO contributors VALUES ('1816422065', '饺子馅juhovon');
 INSERT INTO contributors VALUES ('1969429200', '希澈yuri9doo');
 INSERT INTO contributors VALUES ('3248162956', '伍伍aww');
 INSERT INTO contributors VALUES ('3267498124', 'Fiona有理想');
