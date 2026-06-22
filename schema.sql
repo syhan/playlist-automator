@@ -63,7 +63,6 @@ INSERT INTO contributors VALUES ('372426144', '-由里畅');
 INSERT INTO contributors VALUES ('374278278', '稳如cheems');
 INSERT INTO contributors VALUES ('386382180', '_KKatrina');
 INSERT INTO contributors VALUES ('395732119', '腾林不是疼林儿');
-INSERT INTO contributors VALUES ('444666870', '冒牌患者');
 INSERT INTO contributors VALUES ('474989529', 'LongDreamRiver');
 INSERT INTO contributors VALUES ('483270183', '憖憖a');
 INSERT INTO contributors VALUES ('539474416', 'Backagain-');
