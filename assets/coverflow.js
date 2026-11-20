@@ -42,7 +42,7 @@
   if (!days.length) return
 
   /* ---------- 瓦片池（首次打开才建） ---------- */
-  var R = 8           // 中心两侧各放几张
+  var R = 6           // 中心两侧各放几张
   var els = null
   var active = 0      // 0 = 最新一期
   var shownLo = -1
@@ -66,6 +66,20 @@
       return a
     })
     rangeEl.max = String(days.length - 1)
+  }
+
+  /** 墙上离视口中心最近的那一块 → 切到封面流时从这里开始 */
+  function indexFromWall() {
+    var tiles = wall.querySelectorAll('.tile')
+    var mid = window.innerHeight / 2
+    var best = 0
+    var bestD = Infinity
+    for (var i = 0; i < tiles.length; i++) {
+      var r = tiles[i].getBoundingClientRect()
+      var d = Math.abs(r.top + r.height / 2 - mid)
+      if (d < bestD) { bestD = d; best = i }
+    }
+    return best
   }
 
   function measure() {
@@ -142,6 +156,7 @@
   var current = 'wall'
   function setView(v, keepHash) {
     var isFlow = v === 'flow'
+    var wallWasVisible = current === 'wall' && !wall.hidden
     if (isFlow) build()
     current = v
     flow.hidden = !isFlow
@@ -150,6 +165,7 @@
     btnsView.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === v)) })
     set('view', v)
     if (isFlow) {
+      if (wallWasVisible && wall.scrollHeight) active = indexFromWall()
       render()
       try { stage.focus({ preventScroll: true }) } catch (e) {}
     }
