@@ -97,9 +97,9 @@ html[data-size="l"] .mosaic{--tile:clamp(96px,12.5vw,220px);--gap:4px}
     {%- endfor -%}
   </nav>
   <div class="zoom" role="group" aria-label="瓦片大小">
-    <button type="button" data-size="s" title="更密">▪</button>
-    <button type="button" data-size="m" title="默认">▪▪</button>
-    <button type="button" data-size="l" title="更大">▪▪▪</button>
+    <button type="button" data-size="s" title="更密" aria-label="更密">▪</button>
+    <button type="button" data-size="m" title="默认" aria-label="默认">▪▪</button>
+    <button type="button" data-size="l" title="更大" aria-label="更大">▪▪▪</button>
   </div>
 </header>
 
@@ -127,6 +127,7 @@ html[data-size="l"] .mosaic{--tile:clamp(96px,12.5vw,220px);--gap:4px}
 (function () {
   var root = document.documentElement, KEY = 'fm896.tile'
   try { var v = localStorage.getItem(KEY); if (v) root.dataset.size = v } catch (e) {}
+  if (!root.dataset.size) root.dataset.size = 'm'
   var btns = [].slice.call(document.querySelectorAll('.zoom button'))
   function sync() {
     btns.forEach(function (b) { b.setAttribute('aria-pressed', String(root.dataset.size === b.dataset.size)) })
