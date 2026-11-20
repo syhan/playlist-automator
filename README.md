@@ -21,7 +21,7 @@
 | `archive` | 日更曲目 → 全收录；描述存档为评论（重跑自动判重） |
 | `clean` | 清空日更歌单（**在 archive 之后**，失败也不会丢数据） |
 | `top` | 重算 Top20，先加后删，最后按排名 reorder |
-| `post` | 生成 `_posts/YYYY-MM-DD-fm896-radio.md` + 封面拼图 `images/cover_YYYYMMDD.jpg` |
+| `post` | 生成 `_posts/YYYY-MM-DD-fm896-radio.md` + 封面拼图 `images/cover_YYYYMMDD.jpg` + 首页用的缩略图 `images/thumbs/cover_YYYYMMDD.jpg` |
 | `stats` | 重算 `.stats/` 下的统计（歌曲/艺人/专辑/贡献者、`song_counts.csv`、可选 `stats.db`） |
 | `doctor` | 脏数据体检（`--apply` 时修复：补全缺失曲目、隔离坏快照、删空文章、重建封面、删掉内容重复的连续天只留最旧的一天） |
 
@@ -62,6 +62,12 @@ accessToken 只有 24 小时，`lib/auth.mjs` 会用 refreshToken 自行续期
 - 凭证来自 environment `job` 的三个 secret：`NCM_DEVICE` / `NCM_CREDENTIALS` / `NCM_TOKENS`（base64 的原始文件）
 - 续期后的 `tokens.enc.json` 通过 Actions cache 传给下一次运行
 - `workflow_dispatch` 可手动触发，支持 `dry_run`（只演练）和 `force_refresh`（强制续期）
+
+## 站点
+
+首页是一面马赛克墙：一天一块方形瓦片（当日专辑封面拼图的缩略图），铺满整屏，3 列到 21 列自适应，
+顶栏可跳年份、可切三档密度（存在 localStorage）；桌面悬停/手机常显主题与点歌人，点开是当天的节目页。
+节目页仍是 pages-themes/minimal 的样式。
 
 ## 为什么读快照不用 ncm-cli
 
