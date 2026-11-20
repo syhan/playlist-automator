@@ -19,7 +19,13 @@ a{color:inherit}
 .brand{display:flex;align-items:baseline;gap:9px;text-decoration:none;white-space:nowrap}
 .brand b{font-weight:600;font-size:13px;letter-spacing:.02em}
 .brand span{font-size:11px;color:rgba(255,255,255,.5);font-variant-numeric:tabular-nums}
-.years{margin-left:auto;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.zoom{flex:0 0 auto;margin-left:auto;display:flex;gap:1px;padding:2px;border-radius:99px;background:rgba(255,255,255,.07)}
+.zoom button{appearance:none;border:0;background:none;color:rgba(255,255,255,.5);cursor:pointer;
+  font:600 10px/1 ui-monospace,Menlo,monospace;letter-spacing:-.5px;padding:5px 7px;border-radius:99px}
+.zoom button:hover{color:#fff}
+.zoom button[aria-pressed="true"]{background:rgba(255,255,255,.16);color:#fff}
+
+.years{flex:0 1 auto;min-width:0;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
 .years::-webkit-scrollbar{display:none}
 .years a{flex:0 0 auto;font-size:11px;color:rgba(255,255,255,.55);text-decoration:none;
   padding:4px 9px;border-radius:99px;font-variant-numeric:tabular-nums}
@@ -62,6 +68,16 @@ a{color:inherit}
   .meta em{display:none}
 }
 
+/* 手机：4 列 */
+@media (max-width:640px){
+  .mosaic{--tile:21vw}
+  .years{display:none}
+}
+
+/* 三档密度 */
+html[data-size="s"] .mosaic{--tile:clamp(46px,4.6vw,78px);--gap:2px}
+html[data-size="l"] .mosaic{--tile:clamp(96px,12.5vw,220px);--gap:4px}
+
 @media (prefers-reduced-motion:reduce){
   .tile img,.meta,.d{transition:none}
   .tile:hover img{transform:none}
@@ -80,6 +96,11 @@ a{color:inherit}
     <a href="#y{{ y.name }}">{{ y.name }}</a>
     {%- endfor -%}
   </nav>
+  <div class="zoom" role="group" aria-label="瓦片大小">
+    <button type="button" data-size="s" title="更密">▪</button>
+    <button type="button" data-size="m" title="默认">▪▪</button>
+    <button type="button" data-size="l" title="更大">▪▪▪</button>
+  </div>
 </header>
 
 <main class="mosaic">
@@ -101,6 +122,25 @@ a{color:inherit}
   </a>
 {%- endfor -%}
 </main>
+
+<script>
+(function () {
+  var root = document.documentElement, KEY = 'fm896.tile'
+  try { var v = localStorage.getItem(KEY); if (v) root.dataset.size = v } catch (e) {}
+  var btns = [].slice.call(document.querySelectorAll('.zoom button'))
+  function sync() {
+    btns.forEach(function (b) { b.setAttribute('aria-pressed', String(root.dataset.size === b.dataset.size)) })
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      root.dataset.size = b.dataset.size
+      try { localStorage.setItem(KEY, b.dataset.size) } catch (e) {}
+      sync()
+    })
+  })
+  sync()
+})()
+</script>
 
 </body>
 </html>
