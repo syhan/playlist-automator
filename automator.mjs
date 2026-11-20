@@ -40,6 +40,8 @@ import { loadSnapshots, aggregate, topTracks, parseTheme } from './lib/aggregate
 import { buildCover, writePost } from './lib/post.mjs'
 import { writeStats } from './lib/stats.mjs'
 import { doctor, printReport } from './lib/doctor.mjs'
+import { loadCredentials, loadTokens, saveTokens } from './lib/keystore.mjs'
+import { ensureSession } from './lib/auth.mjs'
 
 // ---------------------------------------------------------------- CLI
 
@@ -55,6 +57,7 @@ function parseArgs(argv) {
     topN: null,
     day: null,
     cache: './.cache',
+    refresh: true,
   }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
@@ -65,6 +68,7 @@ function parseArgs(argv) {
     else if (a === '--top') opts.topN = Number(argv[++i])
     else if (a === '--day') opts.day = argv[++i]
     else if (a === '--cache') opts.cache = argv[++i]
+    else if (a === '--no-refresh') opts.refresh = false
     else if (a === 'all') opts.steps.push(...STEPS)
     else if (STEPS.includes(a)) opts.steps.push(a)
     else if (a === '-h' || a === '--help') {
@@ -378,12 +382,22 @@ async function main() {
   log(`playlist-automator（ncm-cli 版）｜${opts.apply ? 'APPLY（会写入线上）' : 'DRY-RUN（只读）'}`)
   log(`work=${rel(workDir)}｜day=${day}｜topN=${topN}`)
 
-  if (opts.steps.some((s) => ['archive', 'clean', 'top'].includes(s))) {
+  // ncm-cli 0.1.7 的自动续期有 bug（见 lib/auth.mjs 注释），这里自己续
+  if (opts.refresh && opts.steps.some((s) => ['archive', 'clean', 'top'].includes(s))) {
     try {
-      const r = await checkLogin()
-      log(`登录态：${r.message ?? JSON.stringify(r)}`)
+      const credentials = loadCredentials()
+      const { tokens } = loadTokens()
+      const session = await ensureSession({ credentials, tokens, log })
+      if (session.refreshed) {
+        saveTokens(undefined, session.tokens)
+        log(`  ✓ 已续期，有效期至 ${new Date(session.expiresAt).toLocaleString('sv-SE', { timeZone: tz })}`)
+      } else {
+        log(`登录态：有效至 ${new Date(session.expiresAt).toLocaleString('sv-SE', { timeZone: tz })}`)
+      }
+      const chk = await checkLogin()
+      log(`  ncm-cli 确认：${chk.message ?? 'ok'}`)
     } catch (err) {
-      console.error(`\n登录态检查失败：${err.message}\n先执行 ncm-cli login（扫码一次，之后自动续期）`)
+      console.error(`\n登录态不可用：${err.message}\n先执行 ncm-cli login（扫码一次）`)
       process.exit(1)
     }
   }
