@@ -1,2 +1,4 @@
 _site/
 cookie.txt
+.stats/stats.db
+.cache/
