@@ -20,6 +20,10 @@ on:
         description: "只演练，不写入线上"
         type: boolean
         default: false
+      force_refresh:
+        description: "强制用 refreshToken 续期（忽略 cache 里的 token）"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -75,6 +79,7 @@ jobs:
 
       # 上一次运行续期后的 token（cache 不可变，所以 key 用 run_id，靠 restore-keys 取最新）
       - name: restore refreshed tokens
+        if: ${{ inputs.force_refresh != true }}
         uses: actions/cache/restore@v4
         with:
           path: ~/.config/ncm-cli/tokens.enc.json
@@ -89,10 +94,12 @@ jobs:
 
       - name: automator
         run: |
+          flags=""
+          [ "${{ inputs.force_refresh }}" = "true" ] && flags="$flags --force-refresh"
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            node automator.mjs
+            node automator.mjs $flags
           else
-            node automator.mjs --apply
+            node automator.mjs --apply $flags
           fi
 
       - name: save refreshed tokens

@@ -60,6 +60,7 @@ function parseArgs(argv) {
     cache: './.cache',
     refresh: true,
     refreshMap: false,
+    forceRefresh: false,
   }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
@@ -72,6 +73,7 @@ function parseArgs(argv) {
     else if (a === '--cache') opts.cache = argv[++i]
     else if (a === '--no-refresh') opts.refresh = false
     else if (a === '--refresh-map') opts.refreshMap = true
+    else if (a === '--force-refresh') opts.forceRefresh = true
     else if (a === 'all') opts.steps.push(...STEPS)
     else if (STEPS.includes(a)) opts.steps.push(a)
     else if (a === '-h' || a === '--help') {
@@ -268,6 +270,10 @@ async function stepClean(playlist) {
     return
   }
   const ids = (await playlistTracks(P.daily.encrypted)).map((t) => t.id)
+  if (!ids.length) {
+    log('  跳过：日更歌单已经空了')
+    return
+  }
   log(`  计划：从「${P.daily.name}」移除 ${ids.length} 首`)
   if (!opts.apply) {
     log('  [dry-run] 未写入。加 --apply 执行。')
@@ -418,7 +424,13 @@ async function main() {
     try {
       const credentials = loadCredentials()
       const { tokens } = loadTokens()
-      const session = await ensureSession({ credentials, tokens, log })
+      const session = await ensureSession({
+        credentials,
+        tokens,
+        log,
+        // --force-refresh：无视本地过期时间，强制走一次 refreshToken
+        marginMs: opts.forceRefresh ? Number.MAX_SAFE_INTEGER : undefined,
+      })
       if (session.refreshed) {
         saveTokens(undefined, session.tokens)
         log(`  ✓ 已续期，有效期至 ${new Date(session.expiresAt).toLocaleString('sv-SE', { timeZone: tz })}`)
