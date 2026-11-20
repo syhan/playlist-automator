@@ -33,6 +33,7 @@
     return {
       href: a.getAttribute('href'),
       thumb: img ? img.getAttribute('src') : '',
+      full: img ? img.getAttribute('src').replace('/images/thumbs/', '/images/') : '',
       date: meta ? meta.querySelector('b').textContent.trim() : '',
       title: meta ? meta.querySelector('i').textContent.trim() : '',
       author: author ? author.textContent.trim() : ''
@@ -74,20 +75,28 @@
     spread = Math.round(tileSize * 0.63)
   }
 
+  function fill(img, day) {
+    img.onerror = function () {
+      img.onerror = null
+      if (day.thumb && img.src !== day.thumb) img.src = day.thumb
+    }
+    img.src = day.full || day.thumb
+  }
+
   function render() {
     measure()
     var lo = Math.max(0, active - R)
     var hi = Math.min(days.length - 1, active + R)
 
     for (var i = shownLo; i <= shownHi; i++) {
-      if (i >= 0 && (i < lo || i > hi)) els[i].classList.remove('is-on')
+      if (i >= 0 && (i < lo || i > hi)) els[i].classList.remove('is-on', 'is-active')
     }
     for (var j = lo; j <= hi; j++) {
       var el = els[j]
       var d = j - active
       var abs = Math.abs(d)
       var img = el.firstChild
-      if (img && !img.getAttribute('src')) img.src = days[j].thumb
+      if (img && !img.getAttribute('src')) fill(img, days[j])
       el.classList.add('is-on')
       el.classList.toggle('is-active', d === 0)
       el.style.width = el.style.height = tileSize + 'px'
