@@ -1,50 +1,109 @@
-# This is a basic workflow to help you get started with Actions
-
 name: timer
 
-# Controls when the workflow will run
+# 每天跑一次：快照 → 存档到全收录 → 清空日更歌单 → 重排精选 → 出文章/统计 → 发布 gh-pages
+#
+# 凭证（environment: job 的三个 secret，均为 base64 编码的原始文件）：
+#   NCM_DEVICE       ~/.netease_mcp_device.json
+#   NCM_CREDENTIALS  ~/.config/ncm-cli/credentials.enc.json
+#   NCM_TOKENS       ~/.config/ncm-cli/tokens.enc.json
+# 三者必须成套：加密密钥由 deviceId 派生（sha-256），缺 device 文件就解不开。
+#
+# accessToken 只有 24 小时，automator 会用 refreshToken 自行续期（ncm-cli 自带的续期有 bug，
+# 见 lib/auth.mjs）。续期后的 tokens.enc.json 通过 Actions cache 传递到下一次运行。
+
 on:
   schedule:
-  - cron: "30 12 * * *"
-
-  # Allows you to run this workflow manually from the Actions tab
+    - cron: "30 12 * * *"
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "只演练，不写入线上"
+        type: boolean
+        default: false
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+permissions:
+  contents: write
+
+concurrency:
+  group: timer
+  cancel-in-progress: false
+
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: job
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - name: checkout code
+        uses: actions/checkout@v4
         with:
-          ref: 'dada'
+          ref: dada
+          fetch-depth: 1
 
-      - name: setup node
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '12.x'
+          node-version: "22"
 
-      # Runs a single command using the runners shell
-      - name: install imagemagick
-        run: sudo apt install -y imagemagick
-        
-      # Runs a set of commands using the runners shell
-      - name: playlist automation
-        run: bash -x automator.sh
+      - name: install ncm-cli
+        run: |
+          npm i -g @music163/ncm-cli@0.1.7
+          ncm-cli --version
+          command -v montage >/dev/null || echo "::warning::montage 缺失，封面拼图会被跳过"
+
+      - name: check secrets
         env:
-          NETEASE_MUSIC_API: ${{ secrets.NETEASE_MUSIC_API }}
-          NETEASE_MUSIC_USERNAME: ${{ secrets.NETEASE_MUSIC_USERNAME }}
-          NETEASE_MUSIC_PASSWORD: ${{ secrets.NETEASE_MUSIC_PASSWORD }}
-          NETEASE_MUSIC_PLAYLIST_ID: ${{ secrets.NETEASE_MUSIC_PLAYLIST_ID }}
+          NCM_DEVICE: ${{ secrets.NCM_DEVICE }}
+          NCM_CREDENTIALS: ${{ secrets.NCM_CREDENTIALS }}
+          NCM_TOKENS: ${{ secrets.NCM_TOKENS }}
+        run: |
+          missing=0
+          for v in NCM_DEVICE NCM_CREDENTIALS NCM_TOKENS; do
+            if [ -z "${!v}" ]; then echo "::error::缺少 secret $v"; missing=1; fi
+          done
+          exit $missing
 
+      - name: restore credentials
+        env:
+          NCM_DEVICE: ${{ secrets.NCM_DEVICE }}
+          NCM_CREDENTIALS: ${{ secrets.NCM_CREDENTIALS }}
+          NCM_TOKENS: ${{ secrets.NCM_TOKENS }}
+        run: |
+          mkdir -p ~/.config/ncm-cli
+          printf '%s' "$NCM_DEVICE"      | base64 -d > ~/.netease_mcp_device.json
+          printf '%s' "$NCM_CREDENTIALS" | base64 -d > ~/.config/ncm-cli/credentials.enc.json
+          printf '%s' "$NCM_TOKENS"      | base64 -d > ~/.config/ncm-cli/tokens.enc.json
+          chmod 600 ~/.netease_mcp_device.json ~/.config/ncm-cli/*.json
+
+      # 上一次运行续期后的 token（cache 不可变，所以 key 用 run_id，靠 restore-keys 取最新）
+      - name: restore refreshed tokens
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/.config/ncm-cli/tokens.enc.json
+          key: ncm-tokens-${{ github.run_id }}
+          restore-keys: |
+            ncm-tokens-
+
+      - name: checkout gh-pages work copy
+        run: |
+          git clone --single-branch --branch gh-pages \
+            "https://github.com/${{ github.repository }}.git" playlists
+
+      - name: automator
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            node automator.mjs
+          else
+            node automator.mjs --apply
+          fi
+
+      - name: save refreshed tokens
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/.config/ncm-cli/tokens.enc.json
+          key: ncm-tokens-${{ github.run_id }}
 
       - name: deploy
+        if: ${{ inputs.dry_run != true }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
