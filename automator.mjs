@@ -110,6 +110,30 @@ const rel = (p) => path.relative(process.cwd(), p) || p
 
 const snapshotFile = path.join(dataDir, `${dayCompact}.json`)
 
+/** 昨日（或更早最近的一篇）快照，用来判断今天是不是"什么都没变" */
+function previousSnapshot() {
+  if (!fs.existsSync(dataDir)) return null
+  const prev = fs
+    .readdirSync(dataDir)
+    .filter((f) => /^\d{8}\.json$/.test(f))
+    .sort()
+    .filter((f) => f.replace('.json', '') < dayCompact)
+    .pop()
+  if (!prev) return null
+  try {
+    const json = JSON.parse(fs.readFileSync(path.join(dataDir, prev), 'utf8'))
+    return { day: prev.replace('.json', ''), playlist: json.playlist }
+  } catch {
+    return null
+  }
+}
+
+const fingerprint = (playlist) =>
+  JSON.stringify({
+    desc: (playlist?.description ?? '').trim(),
+    ids: (playlist?.trackIds ?? []).map((t) => t.id),
+  })
+
 function readSnapshot() {
   if (!fs.existsSync(snapshotFile)) {
     throw new Error(`缺少当日快照 ${rel(snapshotFile)}，先跑 snapshot 步骤`)
@@ -219,14 +243,25 @@ async function stepSnapshot() {
     }
   }
 
-  fs.mkdirSync(dataDir, { recursive: true })
-  fs.writeFileSync(snapshotFile, JSON.stringify(detail))
   const p = detail.playlist
   const meta = parseTheme(p.description)
-  log(`  ✓ ${rel(snapshotFile)}`)
   log(`  曲目 ${(p.tracks ?? []).length} 首｜主题「${meta.title}」${meta.by ? `｜点歌人 ${meta.by}` : ''}`)
-  if (!(p.tracks ?? []).length) log('  ! 歌单为空：后续写操作将跳过')
-  return p
+  if (!(p.tracks ?? []).length) {
+    log('  = 歌单当前为空：今天没有新内容，不写快照、不出页面')
+    return { playlist: p, duplicate: true }
+  }
+
+  // 与上一篇快照完全一致（曲目和描述都没变）→ 不是新的一期，不落盘、不出页面
+  const prev = previousSnapshot()
+  if (prev && fingerprint(prev.playlist) === fingerprint(p)) {
+    log(`  = 与 ${prev.day} 的快照完全一致 —— 今天不算新的一期：不写快照、不生成文章`)
+    return { playlist: p, duplicate: true }
+  }
+
+  fs.mkdirSync(dataDir, { recursive: true })
+  fs.writeFileSync(snapshotFile, JSON.stringify(detail))
+  log(`  ✓ ${rel(snapshotFile)}`)
+  return { playlist: p, duplicate: false }
 }
 
 async function stepArchive(playlist) {
@@ -446,14 +481,19 @@ async function main() {
   }
 
   let playlist = null
+  let duplicate = false
   const needSnapshot = opts.steps.some((s) => ['snapshot', 'archive', 'clean', 'post'].includes(s))
-  if (opts.steps.includes('snapshot')) playlist = await stepSnapshot()
-  else if (needSnapshot) playlist = readSnapshot().playlist
+  if (opts.steps.includes('snapshot')) {
+    ;({ playlist, duplicate } = await stepSnapshot())
+  } else if (needSnapshot) playlist = readSnapshot().playlist
 
   if (opts.steps.includes('archive')) await stepArchive(playlist)
   if (opts.steps.includes('clean')) await stepClean(playlist)
   if (opts.steps.includes('top')) await stepTop()
-  if (opts.steps.includes('post')) await stepPost(playlist)
+  if (opts.steps.includes('post')) {
+    if (duplicate) log('\n=== 5. post — 跳过：今天与上一篇快照完全一致 ===')
+    else await stepPost(playlist)
+  }
   if (opts.steps.includes('stats')) await stepStats()
   if (opts.steps.includes('doctor')) await stepDoctor()
 
