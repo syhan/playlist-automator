@@ -1,0 +1,21 @@
+{
+  "topN": 20,
+  "timezone": "Asia/Shanghai",
+  "playlists": {
+    "daily": {
+      "numeric": 6876152675,
+      "encrypted": "2EAA7BE053041C944211F0CA70CD1AF7",
+      "name": "FM刘群音乐之声"
+    },
+    "archive": {
+      "numeric": 7072206584,
+      "encrypted": "ABE14D05DD27256F49EDF23665F7AC84",
+      "name": "FM刘群音乐之声全收录"
+    },
+    "top": {
+      "numeric": 7075526802,
+      "encrypted": "B2D89680358F3BF279D9C9C334BE4678",
+      "name": "FM刘群音乐之声精选"
+    }
+  }
+}

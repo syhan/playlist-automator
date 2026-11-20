@@ -4,3 +4,8 @@ qr.png
 qr_status.json
 .DS_Store
 .R*
+# 新版 automator 的工作副本（gh-pages 检出）与缓存
+/playlists/
+/work/
+.cache/
+node_modules/

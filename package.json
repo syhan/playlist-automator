@@ -1,0 +1,21 @@
+{
+  "name": "playlist-automator",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FM896 每日歌单自动化：快照 → 存档 → Top20 重排 → 文章/统计（ncm-cli 版）",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dry": "node automator.mjs",
+    "snapshot": "node automator.mjs snapshot",
+    "post": "node automator.mjs post",
+    "stats": "node automator.mjs stats --sqlite",
+    "apply": "node automator.mjs --apply",
+    "check-login": "ncm-cli login --check"
+  },
+  "dependencies": {
+    "@music163/ncm-cli": "^0.1.7"
+  }
+}
