@@ -32,7 +32,7 @@ a{color:inherit}
 .years a:hover,.years a:focus-visible{color:#fff;background:rgba(255,255,255,.12)}
 
 /* 马赛克墙 */
-.mosaic{--tile:clamp(62px,7.1vw,124px);--gap:3px;
+.mosaic{--tile:max(96px,7.5vw);--gap:3px;
   display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--tile),1fr));
   gap:var(--gap);padding-top:calc(44px + var(--gap))}
 .tile{position:relative;display:block;aspect-ratio:1;overflow:hidden;
@@ -75,8 +75,8 @@ a{color:inherit}
 }
 
 /* 三档密度 */
-html[data-size="s"] .mosaic{--tile:clamp(46px,4.6vw,78px);--gap:2px}
-html[data-size="l"] .mosaic{--tile:clamp(96px,12.5vw,220px);--gap:4px}
+html[data-size="s"] .mosaic{--tile:max(52px,4.4vw);--gap:2px}
+html[data-size="l"] .mosaic{--tile:max(150px,13vw);--gap:4px}
 
 @media (prefers-reduced-motion:reduce){
   .tile img,.meta,.d{transition:none}
