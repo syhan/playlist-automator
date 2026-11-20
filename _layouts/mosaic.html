@@ -111,7 +111,7 @@ html[data-size="l"] .mosaic{--tile:clamp(96px,12.5vw,220px);--gap:4px}
   <a class="tile" href="{{ post.url | relative_url }}"{% if y != curyear %} id="y{{ y }}"{% assign curyear = y %}{% endif %}
      style="--h:{{ forloop.index0 | times: 7 | modulo: 360 }}"
      aria-label="{{ post.date | date: '%Y-%m-%d' }} {{ post.title }}">
-    <img src="{{ '/images/thumbs/cover_' | append: day | append: '.jpg' | relative_url }}"
+    <img src="{{ '/images/thumbs/cover_' | append: day | append: '.jpg' | relative_url }}" onerror="this.remove()"
          alt="" width="220" height="220" loading="lazy" decoding="async">
     <span class="d">{{ post.date | date: '%m.%d' }}</span>
     <span class="meta">
