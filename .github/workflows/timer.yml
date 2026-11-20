@@ -43,11 +43,13 @@ jobs:
         with:
           node-version: "22"
 
-      - name: install ncm-cli
+      - name: install tools
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick >/dev/null
           npm i -g @music163/ncm-cli@0.1.7
           ncm-cli --version
-          command -v montage >/dev/null || echo "::warning::montage 缺失，封面拼图会被跳过"
+          montage --version | head -1
 
       - name: check secrets
         env:
@@ -94,6 +96,16 @@ jobs:
           else
             node automator.mjs --apply
           fi
+
+      - name: diagnostics
+        if: failure()
+        run: |
+          echo "== ncm-cli 命令注册情况 =="
+          ncm-cli --help | sed -n '/Commands:/,$p' | head -12
+          echo "== app.log 尾部 =="
+          tail -40 ~/.config/ncm-cli/app.log 2>/dev/null || echo "(无 app.log)"
+          echo "== 配置目录 =="
+          ls -la ~/.config/ncm-cli 2>/dev/null
 
       - name: save refreshed tokens
         if: always()
