@@ -155,12 +155,12 @@
   /* ---------- 视图切换 ---------- */
   var current = 'wall'
   var savedScroll = 0
-  function setView(v, keepHash) {
+  function setView(v, keepHash, fromUser) {
     var isFlow = v === 'flow'
     var fromWall = current === 'wall' && !wall.hidden
     if (isFlow) build()
     // 必须在藏起墙之前量，否则所有瓦片的 rect 都是 0
-    if (isFlow && fromWall && wall.scrollHeight) {
+    if (isFlow && fromWall && fromUser && wall.scrollHeight) {
       active = indexFromWall()
       savedScroll = window.scrollY || document.documentElement.scrollTop || 0
     }
@@ -185,7 +185,7 @@
   }
 
   btnsView.forEach(function (b) {
-    b.addEventListener('click', function () { setView(b.dataset.view) })
+    b.addEventListener('click', function () { setView(b.dataset.view, false, true) })
   })
 
   /* ---------- 密度（沿用墙上的三档） ---------- */
