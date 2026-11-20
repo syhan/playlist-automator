@@ -17,13 +17,13 @@
 
 | 步骤 | 内容 |
 |---|---|
-| `snapshot` | 拉当日快照到 `playlists/_data/YYYYMMDD.json`（含点歌人 uid、加歌时间） |
+| `snapshot` | 拉当日快照到 `playlists/_data/YYYYMMDD.json`（含点歌人 uid、加歌时间）<br>若与上一篇完全相同、或歌单为空 → 视为没有新一期：不写快照、不出页面 |
 | `archive` | 日更曲目 → 全收录；描述存档为评论（重跑自动判重） |
 | `clean` | 清空日更歌单（**在 archive 之后**，失败也不会丢数据） |
 | `top` | 重算 Top20，先加后删，最后按排名 reorder |
 | `post` | 生成 `_posts/YYYY-MM-DD-fm896-radio.md` + 封面拼图 `images/cover_YYYYMMDD.jpg` |
 | `stats` | 重算 `.stats/` 下的统计（歌曲/艺人/专辑/贡献者、`song_counts.csv`、可选 `stats.db`） |
-| `doctor` | 脏数据体检（`--apply` 时修复：补全缺失曲目、隔离坏快照、删空文章、重建封面） |
+| `doctor` | 脏数据体检（`--apply` 时修复：补全缺失曲目、隔离坏快照、删空文章、重建封面、删掉内容重复的连续天只留最旧的一天） |
 
 不加 `--apply` 就是演练：只打印计划，线上不动，本地文件照常生成。
 
