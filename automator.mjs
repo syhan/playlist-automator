@@ -58,6 +58,7 @@ function parseArgs(argv) {
     day: null,
     cache: './.cache',
     refresh: true,
+    refreshMap: false,
   }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
@@ -69,6 +70,7 @@ function parseArgs(argv) {
     else if (a === '--day') opts.day = argv[++i]
     else if (a === '--cache') opts.cache = argv[++i]
     else if (a === '--no-refresh') opts.refresh = false
+    else if (a === '--refresh-map') opts.refreshMap = true
     else if (a === 'all') opts.steps.push(...STEPS)
     else if (STEPS.includes(a)) opts.steps.push(a)
     else if (a === '-h' || a === '--help') {
@@ -112,7 +114,20 @@ function readSnapshot() {
   return JSON.parse(fs.readFileSync(snapshotFile, 'utf8'))
 }
 
-/** 数字 ID → 加密 ID 映射（来自"全收录"分页，带 7 天缓存） */
+/** 读本地缓存的映射（存在才用，不联网） */
+function readSongMapCache() {
+  const cacheFile = path.join(cacheDir, 'song-map.json')
+  if (!fs.existsSync(cacheFile)) return new Map()
+  try {
+    const cached = JSON.parse(fs.readFileSync(cacheFile, 'utf8'))
+    if (Date.now() - (cached.at ?? 0) > 7 * 24 * 3600 * 1000) return new Map()
+    return new Map(Object.entries(cached.map).map(([k, v]) => [Number(k), v]))
+  } catch {
+    return new Map()
+  }
+}
+
+/** 数字 ID → 加密 ID 映射（来自"全收录"分页，带 7 天缓存；CI 里默认不用） */
 async function buildSongMap({ force = false } = {}) {
   const cacheFile = path.join(cacheDir, 'song-map.json')
   if (!force && fs.existsSync(cacheFile)) {
@@ -263,7 +278,16 @@ async function stepTop() {
   log(`  历史 ${days.length} 天 / ${agg.tracks.size} 首唯一曲目 → Top${top.length}`)
   top.forEach((t, i) => log(`    ${String(i + 1).padStart(2)}. ${String(t.count).padStart(3)}× ${t.name} — ${t.artists.join('/')}`))
 
-  const map = await buildSongMap()
+  // 加密 ID 来源优先级：当前精选（一次小请求） → 本地缓存的「全收录」映射 → 搜索兜底
+  // 不在 CI 里拉「全收录」全量（4319 首 / 9 页 / 每页 ~1MB，跨洋很容易超时）
+  const currentTracks = await playlistTracks(P.top.encrypted)
+  const map = new Map(currentTracks.map((t) => [t.originalId, t.id]))
+  if (opts.refreshMap) {
+    for (const [k, v] of await buildSongMap({ force: true })) map.set(k, v)
+  } else {
+    for (const [k, v] of readSongMapCache()) map.set(k, v)
+  }
+
   const wanted = []
   const wantedByEnc = new Map()
   const missing = []
@@ -278,7 +302,6 @@ async function stepTop() {
     log(`  ! ${missing.length} 首无法解析加密 ID，将被跳过：${missing.map((m) => m.name).join(', ')}`)
   }
 
-  const currentTracks = await playlistTracks(P.top.encrypted)
   const current = currentTracks.map((t) => t.id)
   const wantedSet = new Set(wanted)
   const currentSet = new Set(current)
