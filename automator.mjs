@@ -33,6 +33,7 @@ import {
   removeTracks,
   reorderTracks,
   postPlaylistComment,
+  listComments,
   searchSongs,
   checkLogin,
 } from './lib/ncm.mjs'
@@ -232,12 +233,13 @@ async function stepArchive(playlist) {
     log('  跳过：当日歌单为空')
     return
   }
-  const ids = (await playlistTracks(P.daily.encrypted)).map((t) => t.id)
-  log(`  日更歌单现有 ${ids.length} 首：${playlist.tracks.map((t) => t.name).join(' / ')}`)
+  const current = await playlistTracks(P.daily.encrypted)
+  const ids = current.map((t) => t.id)
   if (!ids.length) {
-    log('  跳过：没有可搬运的曲目')
+    log('  跳过：日更歌单当前为空')
     return
   }
+  log(`  日更歌单现有 ${ids.length} 首：${current.map((t) => t.name).join(' / ')}`)
   const desc = playlist.description ?? ''
   log(`  计划：add ${ids.length} 首 → 「${P.archive.name}」；描述作为评论存档`)
 
@@ -248,8 +250,14 @@ async function stepArchive(playlist) {
   await addTracks(P.archive.encrypted, ids)
   log(`  ✓ 已加入「${P.archive.name}」（${ids.length} 首）`)
   if (desc) {
-    await postPlaylistComment(P.archive.numeric, desc)
-    log(`  ✓ 已把描述存档为评论：${desc}`)
+    // 重跑/补跑时不要重复留言
+    const recent = await listComments(P.archive.encrypted, { limit: 20 })
+    if (recent.some((c) => (c.content ?? '').trim() === desc.trim())) {
+      log(`  = 评论已存在，跳过：${desc}`)
+    } else {
+      await postPlaylistComment(P.archive.numeric, desc)
+      log(`  ✓ 已把描述存档为评论：${desc}`)
+    }
   }
 }
 
