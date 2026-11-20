@@ -53,6 +53,7 @@ function parseArgs(argv) {
     sqlite: false,
     topN: null,
     day: null,
+    cache: './.cache',
   }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]
@@ -62,6 +63,7 @@ function parseArgs(argv) {
     else if (a === '--config') opts.config = argv[++i]
     else if (a === '--top') opts.topN = Number(argv[++i])
     else if (a === '--day') opts.day = argv[++i]
+    else if (a === '--cache') opts.cache = argv[++i]
     else if (a === 'all') opts.steps.push(...STEPS)
     else if (STEPS.includes(a)) opts.steps.push(a)
     else if (a === '-h' || a === '--help') {
@@ -83,7 +85,8 @@ const topN = opts.topN ?? config.topN ?? 20
 const P = config.playlists
 const workDir = path.resolve(opts.work)
 const dataDir = path.join(workDir, '_data')
-const cacheDir = path.join(workDir, '.cache')
+// 缓存放在仓库根目录，避免被 gh-pages 的 publish_dir 一起发布
+const cacheDir = path.resolve(opts.cache)
 
 const dateFmt = new Intl.DateTimeFormat('en-CA', { timeZone: tz })
 const day = opts.day ? opts.day.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : dateFmt.format(new Date())
