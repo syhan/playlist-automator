@@ -254,6 +254,7 @@
     if (current !== 'flow') return
     if (e.key === 'ArrowLeft') { go(active - 1); e.preventDefault() }
     else if (e.key === 'ArrowRight') { go(active + 1); e.preventDefault() }
+    else if (e.key === 'Enter') { location.href = days[active].href; e.preventDefault() }
     else if (e.key === 'Home') { go(0); e.preventDefault() }
     else if (e.key === 'End') { go(days.length - 1); e.preventDefault() }
     else if (e.key === 'Escape') { setView('wall') }
