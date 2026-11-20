@@ -154,10 +154,16 @@
 
   /* ---------- 视图切换 ---------- */
   var current = 'wall'
+  var savedScroll = 0
   function setView(v, keepHash) {
     var isFlow = v === 'flow'
-    var wallWasVisible = current === 'wall' && !wall.hidden
+    var fromWall = current === 'wall' && !wall.hidden
     if (isFlow) build()
+    // 必须在藏起墙之前量，否则所有瓦片的 rect 都是 0
+    if (isFlow && fromWall && wall.scrollHeight) {
+      active = indexFromWall()
+      savedScroll = window.scrollY || document.documentElement.scrollTop || 0
+    }
     current = v
     flow.hidden = !isFlow
     wall.hidden = isFlow
@@ -165,9 +171,11 @@
     btnsView.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === v)) })
     set('view', v)
     if (isFlow) {
-      if (wallWasVisible && wall.scrollHeight) active = indexFromWall()
       render()
       try { stage.focus({ preventScroll: true }) } catch (e) {}
+    } else if (savedScroll) {
+      // 墙回来后再恢复滚动位置（隐藏时文档变矮，位置会被浏览器丢掉）
+      requestAnimationFrame(function () { window.scrollTo(0, savedScroll) })
     }
     if (!keepHash) {
       try {
