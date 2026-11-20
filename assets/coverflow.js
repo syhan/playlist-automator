@@ -71,16 +71,25 @@
   function measure() {
     var w = stage.clientWidth || window.innerWidth
     var h = stage.clientHeight || 420
-    tileSize = Math.round(Math.max(110, Math.min(w * 0.33, h * 0.68, 380)))
+    // 手机上只露出中心 + 两侧各一张，可以给得更大
+    var ratio = w < 640 ? 0.62 : 0.33
+    tileSize = Math.round(Math.max(120, Math.min(w * ratio, h * 0.68, 380)))
     spread = Math.round(tileSize * 0.63)
   }
 
   function fill(img, day) {
+    var src = day.full || day.thumb
+    var tries = 0
     img.onerror = function () {
+      // GitHub Pages 偶发 503：先重试原图（带 cache buster），再退回缩略图
+      if (tries++ === 0) {
+        setTimeout(function () { img.src = src + (src.indexOf('?') < 0 ? '?' : '&') + 'r=' + Date.now() }, 600)
+        return
+      }
       img.onerror = null
-      if (day.thumb && img.src !== day.thumb) img.src = day.thumb
+      if (day.thumb && img.src.indexOf(day.thumb) < 0) img.src = day.thumb
     }
-    img.src = day.full || day.thumb
+    img.src = src
   }
 
   function render() {
