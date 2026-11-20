@@ -51,7 +51,8 @@ node automator.mjs --apply
 | `clean` | 清空日更歌单（**在 archive 之后**） | 是 |
 | `top` | 重排「精选」为历史重复推荐 Top N（先加后删，最后按排名 reorder） | 是 |
 | `post` | 生成 `_posts/YYYY-MM-DD-fm896-radio.md` + `images/cover_YYYYMMDD.jpg` | 否 |
-| `stats` | 重算 `contributors/tracks/artists/albums/...`（`--sqlite` 额外生成 `stats.db`） | 否 |
+| `stats` | 重算 `contributors/tracks/artists/albums/song_counts.csv/...`（`--sqlite` 额外生成 `stats.db`） | 否 |
+| `doctor` | 脏数据体检；`--apply` 时修复（补全曲目、隔离坏文件、删空文章、重建封面） | 否 |
 
 不加 `--apply` 时所有线上写操作只打印计划；本地文件照常生成。
 
@@ -75,13 +76,35 @@ node automator.mjs --day 2026-11-19 post    # 补某一天的文章
 - **幂等**：重跑不会把当天快照覆盖成空（`clean` 之后歌单为空，新版会保留已有快照）。
 - **描述**：不再自动写入「？？？」，描述由人维护；只把当天描述存档为评论。
 
+### 脏数据体检 / 修复
+
+```bash
+node automator.mjs doctor            # 只报告
+node automator.mjs doctor --apply    # 修复
+```
+
+能自动处理的六类问题（都已在 gh-pages 的历史数据上跑过一次）：
+
+| 问题 | 数量 | 处理方式 |
+|---|---|---|
+| 快照不是 JSON（Vercel 500/超时被存了下来） | 2 | 移到 `_data/.quarantine/` |
+| 空歌单快照（旧脚本本该删掉） | 3 | 移到 `_data/.quarantine/` |
+| `tracks` 少于 `trackIds`（曲目详情缺失，点歌人 uid 悬空） | 7 | 用 `api/v3/song/detail` 补全，补不到才裁剪 |
+| 空文章（坏快照生成的 `title: ""`） | 2 | 删除 |
+| 文章引用的封面图缺失 | 1 | 用当天快照重新拼图 |
+| 文件名日期与描述日期不符 | 515 | **只报告不改名**（描述日期有人工笔误，如 `20250107` 写成 `2024/01/07`） |
+
+修复后统计口径变化：`tracks` 4080 → **4761** 首、`song_counts.csv` 4239 → **4317** 行。
+
 ### 已知 gap（无法用 ncm-cli 完成）
 
 1. `trackIds[].uid`（点歌人）—— 开放平台没有该字段，走匿名 Web API 补。
 2. `uid → 昵称` —— 同上，且接口限流严格（405/406「操作频繁」），已做串行 + 退避 + 本地缓存。
 3. 数字 ID ↔ 加密 ID —— 开放平台只认加密 ID；映射从「全收录」分页建立（4319 首 / 9 页），
    带 7 天缓存，缺失的用 `search song` 兜底。
-4. 封面拼图 / 词云 —— 仍需 imagemagick / python。
+4. 封面拼图 —— imagemagick；词云 —— `wordcloud_songs.py` / `wordcloud_themes.py` 仍需 python
+   （且字体路径写死成 macOS 的 `/Library/Fonts/Arial Unicode.ttf`，在 Linux/CI 上跑不了）。
+   输入数据 `song_counts.csv` 已由 `stats` 生成。
 5. `playlist create` 不能设隐私和描述（可后补 `updateDesc`）。
 
 ### 旧的脚本

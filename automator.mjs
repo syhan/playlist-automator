@@ -39,10 +39,11 @@ import {
 import { loadSnapshots, aggregate, topTracks, parseTheme } from './lib/aggregate.mjs'
 import { buildCover, writePost } from './lib/post.mjs'
 import { writeStats } from './lib/stats.mjs'
+import { doctor, printReport } from './lib/doctor.mjs'
 
 // ---------------------------------------------------------------- CLI
 
-const STEPS = ['snapshot', 'archive', 'clean', 'top', 'post', 'stats']
+const STEPS = ['snapshot', 'archive', 'clean', 'top', 'post', 'stats', 'doctor']
 
 function parseArgs(argv) {
   const opts = {
@@ -365,6 +366,12 @@ async function stepStats() {
   if (stat.failures.length) log(`    例：${stat.failures.join(' | ')}`)
 }
 
+async function stepDoctor() {
+  const report = await doctor({ workDir, fix: opts.apply, log })
+  printReport(report, { fix: opts.apply, log })
+  if (opts.apply && report.fixed.length) log('\n  提示：脏数据修复后建议重跑 `stats` 让统计产物同步更新。')
+}
+
 // ---------------------------------------------------------------- main
 
 async function main() {
@@ -391,6 +398,7 @@ async function main() {
   if (opts.steps.includes('top')) await stepTop()
   if (opts.steps.includes('post')) await stepPost(playlist)
   if (opts.steps.includes('stats')) await stepStats()
+  if (opts.steps.includes('doctor')) await stepDoctor()
 
   log('\n完成。' + (opts.apply ? '' : '（dry-run：线上未做任何改动）'))
 }

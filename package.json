@@ -13,7 +13,8 @@
     "post": "node automator.mjs post",
     "stats": "node automator.mjs stats --sqlite",
     "apply": "node automator.mjs --apply",
-    "check-login": "ncm-cli login --check"
+    "check-login": "ncm-cli login --check",
+    "doctor": "node automator.mjs doctor --apply"
   },
   "dependencies": {
     "@music163/ncm-cli": "^0.1.7"
