@@ -57,8 +57,13 @@ accessToken 只有 24 小时，`lib/auth.mjs` 会用 refreshToken 自行续期
 
 ## 定时任务
 
-`.github/workflows/timer.yml`，**工作日**（周一到周五）北京时间 21:00 跑一次，
-也就是 UTC 13:00（GitHub 的 cron 只认 UTC、不认节假日，而且会晚几分钟到十几分钟）。
+`.github/workflows/timer.yml`，**工作日**（周一到周五）跑一次，落点想要北京时间 21:00。
+
+cron 写的是 **UTC 05:00**（北京 13:00），不是 13:00 —— 因为 GitHub 对这个仓库的
+schedule 长期迟到 5.8–11.6 小时（2026-11 的 15 次运行全部落在 18:20–22:33 UTC，
+均值约 8 小时），提前 8 小时排，加完延迟正好回到 21:00 附近。
+代价是延迟有方差，实际落点在 18:50–00:40 之间；哪天 GitHub 恢复准点，就会在中午跑，
+把当天没加完的歌截断成半成品（那时把 cron 改回 `0 13 * * 1-5`）。
 
 > 这份 workflow 只存在于 `main`：GitHub 的 schedule **只读默认分支**里的定义，
 > 而代码在 `dada`（workflow 里用 `ref: dada` 取代码）。改排期或通知要切到 `main` 改，
