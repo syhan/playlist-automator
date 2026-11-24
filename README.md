@@ -57,11 +57,25 @@ accessToken 只有 24 小时，`lib/auth.mjs` 会用 refreshToken 自行续期
 
 ## 定时任务
 
-`.github/workflows/timer.yml`，每天 12:30 UTC 跑一次（GitHub 实际会延迟几小时）：
+`.github/workflows/timer.yml`，**工作日**（周一到周五）北京时间 21:00 跑一次，
+也就是 UTC 13:00（GitHub 的 cron 只认 UTC、不认节假日，而且会晚几分钟到十几分钟）：
 
 - 凭证来自 environment `job` 的三个 secret：`NCM_DEVICE` / `NCM_CREDENTIALS` / `NCM_TOKENS`（base64 的原始文件）
 - 续期后的 `tokens.enc.json` 通过 Actions cache 传给下一次运行
 - `workflow_dispatch` 可手动触发，支持 `dry_run`（只演练）和 `force_refresh`（强制续期）
+
+跑完推一条 [Bark](https://github.com/Finb/Bark) 通知到手机：成功发当天摘要（主题、几首、全收录加了几首、
+点开直达当天页面），失败发错误和出错的步骤。提醒网址放在 environment `job` 的 secret 里，
+`BARK_URL_1` / `BARK_URL_2` 各一条（程序也会扫 `BARK_URL_3`…，加设备不用改代码）。
+
+```bash
+gh secret set BARK_URL_1 -e job --repo syhan/playlist-automator   # 粘贴 https://api.day.app/<key>
+gh secret set BARK_URL_2 -e job --repo syhan/playlist-automator
+gh workflow run timer.yml --repo syhan/playlist-automator -f dry_run=true   # 演练一次，验证通知
+```
+
+通知失败不会让跑批变红（只出一条 warning）——已经跑成的流水线不该被一条推送拖下水。
+跑批本身的摘要写在 `RUN_SUMMARY`（默认 `/tmp/automator-run.json`），`lib/bark.mjs` 读它拼文案。
 
 ## 站点
 

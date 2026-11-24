@@ -1,6 +1,7 @@
 name: timer
 
-# 每天跑一次：快照 → 存档到全收录 → 清空日更歌单 → 重排精选 → 出文章/统计 → 发布 gh-pages
+# 工作日每天跑一次：快照 → 存档到全收录 → 清空日更歌单 → 重排精选 → 出文章/统计 → 发布 gh-pages
+# 跑完用 Bark 推一条通知到手机（成功发摘要，失败发错误）。
 #
 # 凭证（environment: job 的三个 secret，均为 base64 编码的原始文件）：
 #   NCM_DEVICE       ~/.netease_mcp_device.json
@@ -10,10 +11,17 @@ name: timer
 #
 # accessToken 只有 24 小时，automator 会用 refreshToken 自行续期（ncm-cli 自带的续期有 bug，
 # 见 lib/auth.mjs）。续期后的 tokens.enc.json 通过 Actions cache 传递到下一次运行。
+#
+# 通知（environment: job 的 secret，缺了只跳过通知、不影响跑批）：
+#   BARK_URL_1       Bark 提醒网址，https://api.day.app/<key>
+#   BARK_URL_2       第二台设备/Bark 服务端，可留空
+# 程序也会扫 BARK_URL_3、BARK_URL_4… 和 BARK_URLS（逗号/换行分隔），加设备不用改代码。
 
 on:
   schedule:
-    - cron: "30 12 * * *"
+    # UTC 13:00 = 北京时间 21:00，周一到周五（GitHub 的 cron 不收时区，也不认"工作日"，
+    # 只能写成 1-5；它会在整点后排队，通常晚几分钟到十几分钟）
+    - cron: "0 13 * * 1-5"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -58,10 +66,16 @@ jobs:
           NCM_DEVICE: ${{ secrets.NCM_DEVICE }}
           NCM_CREDENTIALS: ${{ secrets.NCM_CREDENTIALS }}
           NCM_TOKENS: ${{ secrets.NCM_TOKENS }}
+          BARK_URL_1: ${{ secrets.BARK_URL_1 }}
+          BARK_URL_2: ${{ secrets.BARK_URL_2 }}
         run: |
           missing=0
           for v in NCM_DEVICE NCM_CREDENTIALS NCM_TOKENS; do
             if [ -z "${!v}" ]; then echo "::error::缺少 secret $v"; missing=1; fi
+          done
+          # 通知是锦上添花，缺了就跳过，不让跑批失败
+          for v in BARK_URL_1 BARK_URL_2; do
+            if [ -z "${!v}" ]; then echo "::warning::没有 secret $v，跑完不会推送"; fi
           done
           exit $missing
 
@@ -93,6 +107,8 @@ jobs:
             "https://github.com/${{ github.repository }}.git" playlists
 
       - name: automator
+        env:
+          RUN_SUMMARY: /tmp/automator-run.json
         run: |
           flags=""
           [ "${{ inputs.force_refresh }}" = "true" ] && flags="$flags --force-refresh"
@@ -116,3 +132,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playlists
           disable_nojekyll: true
+
+      # 通知放在最后：等站点部署完再推，点开链接就是新页面。
+      # if: always() —— 跑挂了更要通知（那时候摘要里带着 error 和出错的步骤）。
+      - name: notify (bark)
+        if: always()
+        env:
+          BARK_URL_1: ${{ secrets.BARK_URL_1 }}
+          BARK_URL_2: ${{ secrets.BARK_URL_2 }}
+          RUN_STATUS: ${{ job.status }}
+        run: node lib/bark.mjs --summary /tmp/automator-run.json

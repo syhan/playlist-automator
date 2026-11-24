@@ -25,6 +25,7 @@
  */
 
 import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 import { fetchPlaylistDetail, createNicknameResolver } from './lib/webapi.mjs'
 import {
@@ -105,6 +106,31 @@ const dayCompact = day.replace(/-/g, '')
 const log = (...a) => console.log(...a)
 const tag = (msg) => `\n=== ${msg} ===`
 const rel = (p) => path.relative(process.cwd(), p) || p
+
+// ---------------------------------------------------------------- 运行摘要
+
+// 给 Bark 通知用：跑完（或跑挂）写一份 JSON，lib/bark.mjs 读它拼通知
+const SITE = 'https://syhan.github.io/playlist-automator'
+const summaryFile = process.env.RUN_SUMMARY
+  ? path.resolve(process.env.RUN_SUMMARY)
+  : path.join(os.tmpdir(), 'automator-run.json')
+const summary = { day, apply: opts.apply, steps: opts.steps, warnings: [] }
+let currentStep = null
+
+function writeSummary(patch = {}) {
+  Object.assign(summary, patch)
+  try {
+    fs.writeFileSync(summaryFile, JSON.stringify(summary, null, 2))
+  } catch (err) {
+    log(`  ! 运行摘要写入失败：${err.message}`)
+  }
+}
+
+/** 记一条警告（通知里只报条数，细节看日志） */
+function warn(msg) {
+  summary.warnings.push(msg)
+  log(`  ! ${msg}`)
+}
 
 // ---------------------------------------------------------------- 工具
 
@@ -245,9 +271,11 @@ async function stepSnapshot() {
 
   const p = detail.playlist
   const meta = parseTheme(p.description)
+  Object.assign(summary, { tracks: (p.tracks ?? []).length, theme: meta.title, by: meta.by })
   log(`  曲目 ${(p.tracks ?? []).length} 首｜主题「${meta.title}」${meta.by ? `｜点歌人 ${meta.by}` : ''}`)
   if (!(p.tracks ?? []).length) {
     log('  = 歌单当前为空：今天没有新内容，不写快照、不出页面')
+    writeSummary({ duplicate: true, duplicateReason: '今天歌单是空的，没有新内容' })
     return { playlist: p, duplicate: true }
   }
 
@@ -255,12 +283,15 @@ async function stepSnapshot() {
   const prev = previousSnapshot()
   if (prev && fingerprint(prev.playlist) === fingerprint(p)) {
     log(`  = 与 ${prev.day} 的快照完全一致 —— 今天不算新的一期：不写快照、不生成文章`)
+    const d = prev.day.replace(/(\d{4})(\d{2})(\d{2})/, '$2.$3')
+    writeSummary({ duplicate: true, duplicateReason: `与 ${d} 那期完全一致，今天不发布` })
     return { playlist: p, duplicate: true }
   }
 
   fs.mkdirSync(dataDir, { recursive: true })
   fs.writeFileSync(snapshotFile, JSON.stringify(detail))
   log(`  ✓ ${rel(snapshotFile)}`)
+  writeSummary({ duplicate: false })
   return { playlist: p, duplicate: false }
 }
 
@@ -286,6 +317,7 @@ async function stepArchive(playlist) {
   }
   await addTracks(P.archive.encrypted, ids)
   log(`  ✓ 已加入「${P.archive.name}」（${ids.length} 首）`)
+  summary.archived = ids.length
   if (desc) {
     // 重跑/补跑时不要重复留言
     const recent = await listComments(P.archive.encrypted, { limit: 20 })
@@ -358,6 +390,7 @@ async function stepTop() {
   const toRemove = current.filter((id) => !wantedSet.has(id))
 
   log(`  当前 ${current.length} 首｜目标 ${wanted.length} 首`)
+  if (opts.apply) summary.top = { size: wanted.length, added: toAdd.length, removed: toRemove.length }
   const setEqual =
     toAdd.length === 0 && toRemove.length === 0 && current.length === wanted.length
   if (setEqual) {
@@ -425,7 +458,9 @@ async function stepPost(playlist) {
   log(`  点歌人 ${uids.length} 位（缓存命中 ${stat.hits}，新查 ${stat.fetched}，失败 ${stat.failed}）`)
 
   const cover = await buildCover(workDir, dayCompact, playlist.tracks ?? [], { log })
-  writePost(workDir, day, playlist, { coverImage: cover, authors: authors.join('/'), log })
+  const file = writePost(workDir, day, playlist, { coverImage: cover, authors: authors.join('/'), log })
+  const [y, m, d] = day.split('-')
+  summary.post = { file: path.basename(file), url: `${SITE}/radio/${y}/${m}/${d}/fm896-radio.html` }
 }
 
 async function stepStats() {
@@ -483,24 +518,30 @@ async function main() {
   let playlist = null
   let duplicate = false
   const needSnapshot = opts.steps.some((s) => ['snapshot', 'archive', 'clean', 'post'].includes(s))
+  const run = async (name, fn) => {
+    currentStep = name
+    return fn()
+  }
   if (opts.steps.includes('snapshot')) {
-    ;({ playlist, duplicate } = await stepSnapshot())
+    ;({ playlist, duplicate } = await run('snapshot', stepSnapshot))
   } else if (needSnapshot) playlist = readSnapshot().playlist
 
-  if (opts.steps.includes('archive')) await stepArchive(playlist)
-  if (opts.steps.includes('clean')) await stepClean(playlist)
-  if (opts.steps.includes('top')) await stepTop()
+  if (opts.steps.includes('archive')) await run('archive', () => stepArchive(playlist))
+  if (opts.steps.includes('clean')) await run('clean', () => stepClean(playlist))
+  if (opts.steps.includes('top')) await run('top', stepTop)
   if (opts.steps.includes('post')) {
     if (duplicate) log('\n=== 5. post — 跳过：今天与上一篇快照完全一致 ===')
-    else await stepPost(playlist)
+    else await run('post', () => stepPost(playlist))
   }
-  if (opts.steps.includes('stats')) await stepStats()
-  if (opts.steps.includes('doctor')) await stepDoctor()
+  if (opts.steps.includes('stats')) await run('stats', stepStats)
+  if (opts.steps.includes('doctor')) await run('doctor', stepDoctor)
 
   log('\n完成。' + (opts.apply ? '' : '（dry-run：线上未做任何改动）'))
+  writeSummary()
 }
 
 main().catch((err) => {
   console.error(`\n✗ 失败：${err.message}`)
+  writeSummary({ error: err.message, failedStep: currentStep })
   process.exit(1)
 })
