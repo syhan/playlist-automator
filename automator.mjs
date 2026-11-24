@@ -259,7 +259,12 @@ async function stepSnapshot() {
       const prevCount = (prev.playlist?.tracks ?? []).length
       if (prevCount > 0 && newCount === 0) {
         log(`  ! 当日快照已存在（${prevCount} 首），本次拉取为空 —— 保留原快照，不覆盖`)
-        return prev.playlist
+        // 返回值必须和别的分支同构：main 里是 { playlist, duplicate } 解构，
+        // 直接返回 playlist 会让 playlist 变成 undefined（重跑必挂）
+        const kept = prev.playlist ?? {}
+        const keptMeta = parseTheme(kept.description)
+        Object.assign(summary, { tracks: prevCount, theme: keptMeta.title, by: keptMeta.by })
+        return { playlist: kept }
       }
       if (prevCount > 0 && newCount < prevCount) {
         log(`  ! 注意：曲目从 ${prevCount} 首变为 ${newCount} 首（可能有人手动删了）`)

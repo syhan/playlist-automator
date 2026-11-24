@@ -58,7 +58,13 @@ accessToken 只有 24 小时，`lib/auth.mjs` 会用 refreshToken 自行续期
 ## 定时任务
 
 `.github/workflows/timer.yml`，**工作日**（周一到周五）北京时间 21:00 跑一次，
-也就是 UTC 13:00（GitHub 的 cron 只认 UTC、不认节假日，而且会晚几分钟到十几分钟）：
+也就是 UTC 13:00（GitHub 的 cron 只认 UTC、不认节假日，而且会晚几分钟到十几分钟）。
+
+> 这份 workflow 只存在于 `main`：GitHub 的 schedule **只读默认分支**里的定义，
+> 而代码在 `dada`（workflow 里用 `ref: dada` 取代码）。改排期或通知要切到 `main` 改，
+> 改在 `dada` 上不会生效。
+
+跑批做的事：
 
 - 凭证来自 environment `job` 的三个 secret：`NCM_DEVICE` / `NCM_CREDENTIALS` / `NCM_TOKENS`（base64 的原始文件）
 - 续期后的 `tokens.enc.json` 通过 Actions cache 传给下一次运行
