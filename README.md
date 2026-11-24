@@ -17,13 +17,13 @@
 
 | 步骤 | 内容 |
 |---|---|
-| `snapshot` | 拉当日快照到 `playlists/_data/YYYYMMDD.json`（含点歌人 uid、加歌时间） |
+| `snapshot` | 拉当日快照到 `playlists/_data/YYYYMMDD.json`（含点歌人 uid、加歌时间）<br>若与上一篇完全相同、或歌单为空 → 视为没有新一期：不写快照、不出页面 |
 | `archive` | 日更曲目 → 全收录；描述存档为评论（重跑自动判重） |
 | `clean` | 清空日更歌单（**在 archive 之后**，失败也不会丢数据） |
 | `top` | 重算 Top20，先加后删，最后按排名 reorder |
-| `post` | 生成 `_posts/YYYY-MM-DD-fm896-radio.md` + 封面拼图 `images/cover_YYYYMMDD.jpg` |
+| `post` | 生成 `_posts/YYYY-MM-DD-fm896-radio.md` + 封面拼图 `images/cover_YYYYMMDD.jpg` + 首页用的缩略图 `images/thumbs/cover_YYYYMMDD.jpg` |
 | `stats` | 重算 `.stats/` 下的统计（歌曲/艺人/专辑/贡献者、`song_counts.csv`、可选 `stats.db`） |
-| `doctor` | 脏数据体检（`--apply` 时修复：补全缺失曲目、隔离坏快照、删空文章、重建封面） |
+| `doctor` | 脏数据体检（`--apply` 时修复：补全缺失曲目、隔离坏快照、删空文章、重建封面、删掉内容重复的连续天只留最旧的一天） |
 
 不加 `--apply` 就是演练：只打印计划，线上不动，本地文件照常生成。
 
@@ -57,11 +57,51 @@ accessToken 只有 24 小时，`lib/auth.mjs` 会用 refreshToken 自行续期
 
 ## 定时任务
 
-`.github/workflows/timer.yml`，每天 12:30 UTC 跑一次（GitHub 实际会延迟几小时）：
+`.github/workflows/timer.yml`，**工作日**（周一到周五）北京时间 21:00 跑一次，
+也就是 UTC 13:00（GitHub 的 cron 只认 UTC、不认节假日，而且会晚几分钟到十几分钟）。
+
+> 这份 workflow 只存在于 `main`：GitHub 的 schedule **只读默认分支**里的定义，
+> 而代码在 `dada`（workflow 里用 `ref: dada` 取代码）。改排期或通知要切到 `main` 改，
+> 改在 `dada` 上不会生效。
+
+跑批做的事：
 
 - 凭证来自 environment `job` 的三个 secret：`NCM_DEVICE` / `NCM_CREDENTIALS` / `NCM_TOKENS`（base64 的原始文件）
 - 续期后的 `tokens.enc.json` 通过 Actions cache 传给下一次运行
 - `workflow_dispatch` 可手动触发，支持 `dry_run`（只演练）和 `force_refresh`（强制续期）
+
+跑完推一条 [Bark](https://github.com/Finb/Bark) 通知到手机：成功发当天摘要（主题、几首、全收录加了几首、
+点开直达当天页面），失败发错误和出错的步骤（`level=timeSensitive`，会穿透专注模式）。
+
+两台设备分两种收法，都放在 environment `job` 的 secret 里：
+
+| secret | 什么时候推 |
+|-|-|
+| `BARK_URL_ALWAYS` | 不管成败都推 —— 这台收全部 |
+| `BARK_URL_ON_SUCCESS` | 只在跑成功时推 —— 这台只收好消息 |
+
+一个变量里塞多条网址（逗号或换行分隔）就多推几台，加设备不用改代码。
+
+```bash
+gh secret set BARK_URL_ALWAYS     -e job --repo syhan/playlist-automator   # 粘贴 https://api.day.app/<key>
+gh secret set BARK_URL_ON_SUCCESS -e job --repo syhan/playlist-automator
+gh workflow run timer.yml --repo syhan/playlist-automator -f dry_run=true  # 演练一次，验证通知
+```
+
+通知失败不会让跑批变红（只出一条 warning）——已经跑成的流水线不该被一条推送拖下水。
+跑批本身的摘要写在 `RUN_SUMMARY`（默认 `/tmp/automator-run.json`），`lib/bark.mjs` 读它拼文案。
+
+## 站点
+
+首页有两种看法，顶栏左上角切换（会记住选择，`#coverflow` 可直接深链到封面流）：
+
+- **墙**（默认）：一天一块方形瓦片，用当日专辑封面拼图的缩略图，铺满整屏，
+  3 列到 21 列自适应；顶栏可跳年份、可切三档密度
+- **封面流**：像 iPod 那样一叠封面横向翻，左右方向键 / 拖动 / 滚轮 / 底部滑杆 / 随机，
+  回车或点中间那张打开当天。从墙上切过去时会自动定位到你正在看的那一天
+
+封面流用原图（380px），墙用 220px 缩略图；样式在 `assets/mosaic.css`，交互在 `assets/coverflow.js`，
+数据直接从墙的 DOM 里读，不额外传 JSON。节目页仍是 pages-themes/minimal 的样式。
 
 ## 为什么读快照不用 ncm-cli
 
