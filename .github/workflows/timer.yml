@@ -13,9 +13,9 @@ name: timer
 # 见 lib/auth.mjs）。续期后的 tokens.enc.json 通过 Actions cache 传递到下一次运行。
 #
 # 通知（environment: job 的 secret，缺了只跳过通知、不影响跑批）：
-#   BARK_URL_1       Bark 提醒网址，https://api.day.app/<key>
-#   BARK_URL_2       第二台设备/Bark 服务端，可留空
-# 程序也会扫 BARK_URL_3、BARK_URL_4… 和 BARK_URLS（逗号/换行分隔），加设备不用改代码。
+#   BARK_URL_ALWAYS      不管成败都推（这台收全部，包括失败）
+#   BARK_URL_ON_SUCCESS  只在跑成功时推（这台只收好消息）
+# 一个变量里塞多条用逗号或换行分隔，加设备不用改代码。
 
 on:
   schedule:
@@ -66,17 +66,16 @@ jobs:
           NCM_DEVICE: ${{ secrets.NCM_DEVICE }}
           NCM_CREDENTIALS: ${{ secrets.NCM_CREDENTIALS }}
           NCM_TOKENS: ${{ secrets.NCM_TOKENS }}
-          BARK_URL_1: ${{ secrets.BARK_URL_1 }}
-          BARK_URL_2: ${{ secrets.BARK_URL_2 }}
+          BARK_URL_ALWAYS: ${{ secrets.BARK_URL_ALWAYS }}
+          BARK_URL_ON_SUCCESS: ${{ secrets.BARK_URL_ON_SUCCESS }}
         run: |
           missing=0
           for v in NCM_DEVICE NCM_CREDENTIALS NCM_TOKENS; do
             if [ -z "${!v}" ]; then echo "::error::缺少 secret $v"; missing=1; fi
           done
           # 通知是锦上添花，缺了就跳过，不让跑批失败
-          for v in BARK_URL_1 BARK_URL_2; do
-            if [ -z "${!v}" ]; then echo "::warning::没有 secret $v，跑完不会推送"; fi
-          done
+          if [ -z "$BARK_URL_ALWAYS" ]; then echo "::warning::没有 BARK_URL_ALWAYS，失败时不会有任何通知"; fi
+          if [ -z "$BARK_URL_ON_SUCCESS" ]; then echo "::warning::没有 BARK_URL_ON_SUCCESS，成功时只推 ALWAYS 那台"; fi
           exit $missing
 
       - name: restore credentials
@@ -138,7 +137,7 @@ jobs:
       - name: notify (bark)
         if: always()
         env:
-          BARK_URL_1: ${{ secrets.BARK_URL_1 }}
-          BARK_URL_2: ${{ secrets.BARK_URL_2 }}
+          BARK_URL_ALWAYS: ${{ secrets.BARK_URL_ALWAYS }}
+          BARK_URL_ON_SUCCESS: ${{ secrets.BARK_URL_ON_SUCCESS }}
           RUN_STATUS: ${{ job.status }}
         run: node lib/bark.mjs --summary /tmp/automator-run.json

@@ -65,13 +65,21 @@ accessToken 只有 24 小时，`lib/auth.mjs` 会用 refreshToken 自行续期
 - `workflow_dispatch` 可手动触发，支持 `dry_run`（只演练）和 `force_refresh`（强制续期）
 
 跑完推一条 [Bark](https://github.com/Finb/Bark) 通知到手机：成功发当天摘要（主题、几首、全收录加了几首、
-点开直达当天页面），失败发错误和出错的步骤。提醒网址放在 environment `job` 的 secret 里，
-`BARK_URL_1` / `BARK_URL_2` 各一条（程序也会扫 `BARK_URL_3`…，加设备不用改代码）。
+点开直达当天页面），失败发错误和出错的步骤（`level=timeSensitive`，会穿透专注模式）。
+
+两台设备分两种收法，都放在 environment `job` 的 secret 里：
+
+| secret | 什么时候推 |
+|-|-|
+| `BARK_URL_ALWAYS` | 不管成败都推 —— 这台收全部 |
+| `BARK_URL_ON_SUCCESS` | 只在跑成功时推 —— 这台只收好消息 |
+
+一个变量里塞多条网址（逗号或换行分隔）就多推几台，加设备不用改代码。
 
 ```bash
-gh secret set BARK_URL_1 -e job --repo syhan/playlist-automator   # 粘贴 https://api.day.app/<key>
-gh secret set BARK_URL_2 -e job --repo syhan/playlist-automator
-gh workflow run timer.yml --repo syhan/playlist-automator -f dry_run=true   # 演练一次，验证通知
+gh secret set BARK_URL_ALWAYS     -e job --repo syhan/playlist-automator   # 粘贴 https://api.day.app/<key>
+gh secret set BARK_URL_ON_SUCCESS -e job --repo syhan/playlist-automator
+gh workflow run timer.yml --repo syhan/playlist-automator -f dry_run=true  # 演练一次，验证通知
 ```
 
 通知失败不会让跑批变红（只出一条 warning）——已经跑成的流水线不该被一条推送拖下水。
