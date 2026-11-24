@@ -19,9 +19,14 @@ name: timer
 
 on:
   schedule:
-    # UTC 13:00 = 北京时间 21:00，周一到周五（GitHub 的 cron 不收时区，也不认"工作日"，
-    # 只能写成 1-5；它会在整点后排队，通常晚几分钟到十几分钟）
-    - cron: "0 13 * * 1-5"
+    # 周一到周五（GitHub 的 cron 不收时区，也不认"工作日"，只能写成 1-5）。
+    #
+    # 为什么是 UTC 05:00 而不是 13:00：这个仓库的 schedule 长期晚 5.8–11.6 小时
+    # （2026-11 的 15 次运行全部落在 18:20–22:33 UTC，均值约 8 小时）。
+    # 05:00 UTC = 北京 13:00，加 8 小时延迟 ≈ 北京 21:00，正是想要的落点。
+    # 代价：延迟有方差，实际落在 18:50–00:40；哪天 GitHub 恢复准点就会在中午跑，
+    # 把当天没加完的歌截断成半成品（那时把这里改回 13:00）。
+    - cron: "0 5 * * 1-5"
   workflow_dispatch:
     inputs:
       dry_run:
@@ -74,8 +79,10 @@ jobs:
             if [ -z "${!v}" ]; then echo "::error::缺少 secret $v"; missing=1; fi
           done
           # 通知是锦上添花，缺了就跳过，不让跑批失败
-          if [ -z "$BARK_URL_ALWAYS" ]; then echo "::warning::没有 BARK_URL_ALWAYS，失败时不会有任何通知"; fi
-          if [ -z "$BARK_URL_ON_SUCCESS" ]; then echo "::warning::没有 BARK_URL_ON_SUCCESS，成功时只推 ALWAYS 那台"; fi
+          [ -n "$BARK_URL_ALWAYS" ] ||
+            echo "::warning::没有 BARK_URL_ALWAYS，失败时不会有任何通知"
+          [ -n "$BARK_URL_ON_SUCCESS" ] ||
+            echo "::warning::没有 BARK_URL_ON_SUCCESS，成功时只推 ALWAYS 那台"
           exit $missing
 
       - name: restore credentials
@@ -85,9 +92,12 @@ jobs:
           NCM_TOKENS: ${{ secrets.NCM_TOKENS }}
         run: |
           mkdir -p ~/.config/ncm-cli
-          printf '%s' "$NCM_DEVICE"      | base64 -d > ~/.netease_mcp_device.json
-          printf '%s' "$NCM_CREDENTIALS" | base64 -d > ~/.config/ncm-cli/credentials.enc.json
-          printf '%s' "$NCM_TOKENS"      | base64 -d > ~/.config/ncm-cli/tokens.enc.json
+          printf '%s' "$NCM_DEVICE" |
+            base64 -d > ~/.netease_mcp_device.json
+          printf '%s' "$NCM_CREDENTIALS" |
+            base64 -d > ~/.config/ncm-cli/credentials.enc.json
+          printf '%s' "$NCM_TOKENS" |
+            base64 -d > ~/.config/ncm-cli/tokens.enc.json
           chmod 600 ~/.netease_mcp_device.json ~/.config/ncm-cli/*.json
 
       # 上一次运行续期后的 token（cache 不可变，所以 key 用 run_id，靠 restore-keys 取最新）
@@ -110,7 +120,8 @@ jobs:
           RUN_SUMMARY: /tmp/automator-run.json
         run: |
           flags=""
-          [ "${{ inputs.force_refresh }}" = "true" ] && flags="$flags --force-refresh"
+          [ "${{ inputs.force_refresh }}" != "true" ] ||
+            flags="$flags --force-refresh"
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             node automator.mjs $flags
           else
@@ -126,7 +137,7 @@ jobs:
 
       - name: deploy
         if: ${{ inputs.dry_run != true }}
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playlists
@@ -140,6 +151,8 @@ jobs:
           BARK_URL_ALWAYS: ${{ secrets.BARK_URL_ALWAYS }}
           BARK_URL_ON_SUCCESS: ${{ secrets.BARK_URL_ON_SUCCESS }}
           RUN_STATUS: ${{ job.status }}
-          # 失败通知点开直接看这次运行的日志
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: node lib/bark.mjs --summary /tmp/automator-run.json
+        run: |
+          # 失败通知点开直接看这次运行的日志（这三个是 runner 自带的默认变量）
+          RUN_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+          export RUN_URL="$RUN_URL/actions/runs/$GITHUB_RUN_ID"
+          node lib/bark.mjs --summary /tmp/automator-run.json
