@@ -140,4 +140,6 @@ jobs:
           BARK_URL_ALWAYS: ${{ secrets.BARK_URL_ALWAYS }}
           BARK_URL_ON_SUCCESS: ${{ secrets.BARK_URL_ON_SUCCESS }}
           RUN_STATUS: ${{ job.status }}
+          # 失败通知点开直接看这次运行的日志
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: node lib/bark.mjs --summary /tmp/automator-run.json
