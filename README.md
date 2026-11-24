@@ -70,8 +70,9 @@ accessToken 只有 24 小时，`lib/auth.mjs` 会用 refreshToken 自行续期
 - 续期后的 `tokens.enc.json` 通过 Actions cache 传给下一次运行
 - `workflow_dispatch` 可手动触发，支持 `dry_run`（只演练）和 `force_refresh`（强制续期）
 
-跑完推一条 [Bark](https://github.com/Finb/Bark) 通知到手机：成功发当天摘要（主题、几首、全收录加了几首、
-点开直达当天页面），失败发错误和出错的步骤（`level=timeSensitive`，会穿透专注模式）。
+跑完推一条 [Bark](https://github.com/Finb/Bark) 通知到手机：成功发当天摘要（主题、几首、全收录加了几首），
+点开直达当天歌单 <https://music.163.com/playlist?id=6876152675>；失败发错误和出错的步骤，
+点开是这次运行的 Actions 日志，并带 `level=timeSensitive`（会穿透专注模式）。
 
 两台设备分两种收法，都放在 environment `job` 的 secret 里：
 

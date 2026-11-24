@@ -114,7 +114,16 @@ const SITE = 'https://syhan.github.io/playlist-automator'
 const summaryFile = process.env.RUN_SUMMARY
   ? path.resolve(process.env.RUN_SUMMARY)
   : path.join(os.tmpdir(), 'automator-run.json')
-const summary = { day, apply: opts.apply, steps: opts.steps, warnings: [] }
+const playlistUrl = (n) => `https://music.163.com/playlist?id=${n}`
+const summary = {
+  day,
+  apply: opts.apply,
+  steps: opts.steps,
+  warnings: [],
+  // 通知里点开要落到歌单（人是从歌单里点歌的），不是站点文章页
+  playlistUrl: playlistUrl(P.daily.numeric),
+  archiveUrl: playlistUrl(P.archive.numeric),
+}
 let currentStep = null
 
 function writeSummary(patch = {}) {
