@@ -1,7 +1,9 @@
 name: timer
 
-# 工作日每天跑一次：快照 → 存档到全收录 → 清空日更歌单 → 重排精选 → 出文章/统计 → 发布 gh-pages
+# 快照 → 存档到全收录 → 清空日更歌单 → 重排精选 → 出文章/统计 → 发布 gh-pages
 # 跑完用 Bark 推一条通知到手机（成功发摘要，失败发错误）。
+#
+# 只手动触发（workflow_dispatch），排期交给本地那台常开的机器，见下面 `on:` 的注释。
 #
 # 凭证（environment: job 的三个 secret，均为 base64 编码的原始文件）：
 #   NCM_DEVICE       ~/.netease_mcp_device.json
@@ -18,15 +20,13 @@ name: timer
 # 一个变量里塞多条用逗号或换行分隔，加设备不用改代码。
 
 on:
-  schedule:
-    # 周一到周五（GitHub 的 cron 不收时区，也不认"工作日"，只能写成 1-5）。
-    #
-    # 为什么是 UTC 05:00 而不是 13:00：这个仓库的 schedule 长期晚 5.8–11.6 小时
-    # （2026-11 的 15 次运行全部落在 18:20–22:33 UTC，均值约 8 小时）。
-    # 05:00 UTC = 北京 13:00，加 8 小时延迟 ≈ 北京 21:00，正是想要的落点。
-    # 代价：延迟有方差，实际落在 18:50–00:40；哪天 GitHub 恢复准点就会在中午跑，
-    # 把当天没加完的歌截断成半成品（那时把这里改回 13:00）。
-    - cron: "0 5 * * 1-5"
+  # 没有 schedule：全靠本地触发（10.0.0.177 那台 Armbian，systemd timer 工作日 21:00
+  # 打 REST workflow_dispatch）。原因三条，都实测过：
+  #   1. GitHub 的 schedule 对这个仓库长期迟到 5h17m–11h37m（2026-11 的 19 次，均值 7.9h），
+  #      官方文档也明说会延迟、且「some queued jobs may be dropped」。
+  #   2. automator.mjs:103 的 day 取「今天」（Asia/Shanghai），没有补跑。cron 定在 05:00 UTC
+  #      时，延迟一旦超过 11 小时就跨过北京零点，把「明天」当成今天跑，当天歌单永远不归档。
+  #   3. 本地触发是准点的：21:00 CST = 13:00 UTC，跑的时候 day 一定是当天。
   workflow_dispatch:
     inputs:
       dry_run:

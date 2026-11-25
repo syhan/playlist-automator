@@ -57,23 +57,30 @@ accessToken 只有 24 小时，`lib/auth.mjs` 会用 refreshToken 自行续期
 
 ## 定时任务
 
-`.github/workflows/timer.yml`，**工作日**（周一到周五）跑一次，落点想要北京时间 21:00。
+`.github/workflows/timer.yml` **没有 cron，只接受手动触发**。排期在一台常开的本地机器上：
 
-cron 写的是 **UTC 05:00**（北京 13:00），不是 13:00 —— 因为 GitHub 对这个仓库的
-schedule 长期迟到 5.8–11.6 小时（2026-11 的 15 次运行全部落在 18:20–22:33 UTC，
-均值约 8 小时），提前 8 小时排，加完延迟正好回到 21:00 附近。
-代价是延迟有方差，实际落点在 18:50–00:40 之间；哪天 GitHub 恢复准点，就会在中午跑，
-把当天没加完的歌截断成半成品（那时把 cron 改回 `0 13 * * 1-5`）。
+- 机器：`10.0.0.177`（Armbian，aarch64，时区 Asia/Shanghai）
+- `playlist-dispatch.timer`：**工作日 21:00** 跑一次 `playlist-dispatch.service`
+- 那个 service 用 curl 打 `POST /repos/syhan/playlist-automator/actions/workflows/timer.yml/dispatches`（`{"ref":"main"}`），token 放在 `~/.config/playlist-automator.token`（600）
+- 查状态：`ssh 10.0.0.177 systemctl list-timers playlist-dispatch.timer`、`journalctl --user -u playlist-dispatch -n 20`
 
-> 这份 workflow 只存在于 `main`：GitHub 的 schedule **只读默认分支**里的定义，
-> 而代码在 `dada`（workflow 里用 `ref: dada` 取代码）。改排期或通知要切到 `main` 改，
+为什么不用 GitHub 的 `schedule`（实测，不是猜）：
+
+- 这个仓库的 schedule 长期迟到 **5h17m–11h37m**（2026-11 的 19 次，均值 7.9h），
+  官方文档也明说会延迟、且「some queued jobs may be dropped」
+- `automator.mjs:103` 的 `day` 取「今天」（Asia/Shanghai），**没有补跑**。cron 定在
+  05:00 UTC 时，延迟一旦超过 11 小时就跨过北京零点，把「明天」当成今天跑，当天歌单永远不归档
+- 本地触发是准点的：21:00 CST = 13:00 UTC，跑的时候 `day` 一定是当天
+
+> 这份 workflow 只存在于 `main`（`workflow_dispatch` 也要求文件在默认分支上），
+> 而代码在 `dada`（workflow 里用 `ref: dada` 取代码）。改 workflow 要切到 `main` 改，
 > 改在 `dada` 上不会生效。
 
 跑批做的事：
 
 - 凭证来自 environment `job` 的三个 secret：`NCM_DEVICE` / `NCM_CREDENTIALS` / `NCM_TOKENS`（base64 的原始文件）
 - 续期后的 `tokens.enc.json` 通过 Actions cache 传给下一次运行
-- `workflow_dispatch` 可手动触发，支持 `dry_run`（只演练）和 `force_refresh`（强制续期）
+- `workflow_dispatch` 支持 `dry_run`（只演练）和 `force_refresh`（强制续期）
 
 跑完推一条 [Bark](https://github.com/Finb/Bark) 通知到手机：成功发当天摘要（主题、几首、全收录加了几首），
 点开直达当天歌单 <https://music.163.com/playlist?id=6876152675>；失败发错误和出错的步骤，
