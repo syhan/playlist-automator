@@ -60,11 +60,22 @@ jobs:
         with:
           node-version: "22"
 
-      - name: install ncm-cli
+      - name: install tools
         run: |
           npm i -g @music163/ncm-cli@0.1.7
           ncm-cli --version
-          command -v montage >/dev/null || echo "::warning::montage 缺失，封面拼图会被跳过"
+
+          # 封面拼图（montage）和缩略图（convert）来自 imagemagick，ubuntu-latest 不自带。
+          # 缺了不影响主流程，但文章封面和首页马赛克墙会退化，所以装一次；装不上只告警。
+          if ! command -v montage >/dev/null; then
+            sudo apt-get update -qq || true
+            sudo apt-get install -y -qq imagemagick >/dev/null || true
+          fi
+          if command -v montage >/dev/null; then
+            montage -version | head -1
+          else
+            echo "::warning::montage 缺失，封面拼图会被跳过"
+          fi
 
       - name: check secrets
         env:
